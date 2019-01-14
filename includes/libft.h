@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2018/12/21 12:36:21 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/11 14:37:34 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-
-typedef struct		s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-}					t_list;
 
 size_t				ft_strlen(const char *str);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -76,19 +69,10 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
-t_list				*ft_lstnew(void const *content, size_t content_size);
-void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
-void				ft_lstadd(t_list **alst, t_list *new);
-void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
-void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
-t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_putstrtab(char **tab);
 void				ft_putinttab(int *tab, size_t size);
 char				*ft_strtrimchar(char const *s, int c);
 char				*ft_strjointab(const char **tab, const char *join);
-size_t				ft_lstlen(t_list *lst);
-void				ft_lstradd(t_list **lst, t_list *new);
-void				ft_putlst_str(t_list *lst);
 int					ft_pow(int nb, int pow);
 char				*ft_itoa_base(unsigned long long int nb, const char *base);
 char				*ft_itoa_base_signed(long long int nb, const char *base);

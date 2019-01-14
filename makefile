@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/10 16:58:04 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/14 12:27:43 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,19 @@ LIB_NAME = ft_strcpy.c\
 		   ft_pow.c \
 		   ft_strsplit.c \
 		   ft_swap.c \
-		   ft_strsplit.c
+		   ft_isdigit.c \
+		   ft_putstrtab.c \
+		   ft_putstr.c \
+		   ft_putchar.c \
+		   ft_putendl.c \
+		   ft_putinttab.c \
+		   ft_putnbr.c \
+		   ft_itoa.c
 
 SRC_NAME_CHECK= ft_checker.c \
-				ft_oper_fcts.c
+				ft_oper_fcts.c \
+				ft_visualizer.c \
+				lst_fcts.c
 
 SRC_NAME_PUSH = ft_push_swap.c \
 
@@ -64,7 +73,7 @@ all : $(NAME)
 .PHONY : clean fclean re
 
 $(NAME) : $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
-	@gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)
+	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)
 
 clean :
 	rm -f $(OBJ_SRC_PUSH)
@@ -73,5 +82,6 @@ clean :
 
 fclean : clean
 	rm -f $(NAME)
+	rm -f $(NAME_CHECK)
 
 re : fclean all

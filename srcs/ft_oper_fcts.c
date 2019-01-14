@@ -6,77 +6,71 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:55:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/10 17:52:21 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/11 16:43:14 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "libft.h"
 
-void		swap(char *operation, int **a_pile, int **b_pile, int (*size)[2])
+void		swap(char *operation, t_pile **a_pile, t_pile **b_pile)
 {
-	int **pile;
-
-	(void)size;
-	if (operation[1] == 'a')
-		pile = a_pile;
-	else
-		pile = b_pile;
-	ft_swap(*pile, (*pile)++);
-	if (operation[1] == 's')
-		ft_swap(*a_pile, (*a_pile)++);
+	if (operation[1] != 'b')
+		ft_swap(&((*a_pile)->nb), &((*a_pile)->next)->nb);
+	if (operation[1] != 'a')
+		ft_swap(&((*b_pile)->nb), &((*b_pile)->next)->nb);
 }
 
-void		push(char *operation, int **a_pile, int **b_pile, int (*size)[2])
+void		push(char *operation, t_pile **a_pile, t_pile **b_pile)
 {
-	if (operation[1] == 'a')
+	t_pile	*tmp;
+
+	if (operation[1] == 'a' && *b_pile)
 	{
-		**a_pile = **b_pile;
-		(*size)[0]++;
-		(*size)[1]--;
+		tmp = *b_pile;
+		*b_pile = (*b_pile)->next;
+		ft_lstadd(a_pile, tmp);
+	}
+	else if (operation[1] == 'b' && *a_pile)
+	{
+		tmp = *a_pile;
+		*a_pile = (*a_pile)->next;
+		ft_lstadd(b_pile, tmp);
+	}
+}
+
+static void	rotation(t_pile **pile, int side)
+{
+	t_pile	*current;
+	t_pile	*tmp;
+
+	if (side > 0)
+	{
+		tmp = *pile;
+		*pile = (*pile)->next;
+		ft_lstaddend(pile, tmp);
 	}
 	else
 	{
-		**b_pile = **a_pile;
-		(*size)[0]--;
-		(*size)[1]++;
+		current = *pile;
+		while (current->next->next)
+			current = current->next;
+		tmp = current->next;
+		ft_lstadd(pile, tmp);
+		current->next = NULL;
 	}
 }
 
-static void	rotation(int **pile, int size, int side)
-{
-	int i;
-	int tmp;
-	int zero;
-
-	i = -1;
-	zero = (*pile)[0];
-	while (++i < size)
-	{
-		tmp = (*pile)[i];
-		if (i + side < 0)
-		   (*pile)[i] = (*pile)[size + side];
-		else if (i + side < size)
-			(*pile)[i] = zero;
-		else
-		{
-			if (side > 0)
-				(*pile)[i] = (*pile)[i + 1];
-			else
-				(*pile)[i] = tmp;
- 		}	
-	}
-}
-
-void		rotate(char *operation, int **a_pile, int **b_pile, int (*size)[2])
+void		rotate(char *operation, t_pile **a_pile, t_pile **b_pile)
 {
 	int side;
 
-	operation = ft_strlen(operation) == 2 ? operation + 1 : operation + 2;
 	side = ft_strlen(operation) == 2 ? 1 : -1;
-	if (*operation != 'b')
-		rotation(a_pile, (*size)[0], side);
-	if (*operation != 'a')
-		rotation(b_pile, (*size)[1], side);
+	operation = ft_strlen(operation) == 2 ? operation + 1 : operation + 2;
+	if (*operation != 'b' && ft_lstlen(*a_pile) > 1)
+		rotation(a_pile, side);
+	if (*operation != 'a' && ft_lstlen(*b_pile) > 1)
+		rotation(b_pile, side);
 }
 
 t_oper_fcts	*make_struct(void)
@@ -88,8 +82,8 @@ t_oper_fcts	*make_struct(void)
 	fcts_tab[0].operation = 's';
 	fcts_tab[0].f = &swap;
 	fcts_tab[1].operation = 'p';
-	fcts_tab[1].f = &swap;
+	fcts_tab[1].f = &push;
 	fcts_tab[2].operation = 'r';
-	fcts_tab[2].f = &swap;
+	fcts_tab[2].f = &rotate;
 	return (fcts_tab);
 }
