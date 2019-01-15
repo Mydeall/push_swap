@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/14 14:39:09 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/15 15:18:46 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 typedef struct	s_pile
 {
 	int			nb;
+	int			p;
 	struct s_pile	*next;
 }				t_pile;
 
@@ -36,11 +37,14 @@ void            ft_lstaddend(t_pile **lst, t_pile *new);
 size_t          ft_lstlen(t_pile *lst);
 void            ft_putlst(t_pile *lst);
 void			ft_swap(int *a, int *b);
+t_pile			*ft_lstgetlast(t_pile *lst);
 
+t_pile			*make_pile(int ac, char *av[], int visualize);
 void			swap(char *operation, t_pile **a_pile, t_pile **b_pile);
 void			push(char *operation, t_pile **a_pile, t_pile **b_pile);
 void			rotate(char *operation, t_pile **a_pile, t_pile **b_pile);
 t_oper_fcts		*make_struct(void);
 int				visualizer(t_pile *a_pile, t_pile *b_pile);
+char			*ft_quick_sort(t_pile **a_pile, t_pile **b_pile);
 
 #endif

@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_push_swap.c                                     :+:      :+:    :+:   */
+/*   ft_make_pile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/15 15:31:28 by ccepre           ###   ########.fr       */
+/*   Created: 2019/01/15 15:17:24 by ccepre            #+#    #+#             */
+/*   Updated: 2019/01/15 15:34:41 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-int main(int ac, char *av[])
+t_pile	*make_pile(int ac, char *av[], int visualize)
 {
+	int		i;
+	int		j;
 	t_pile	*a_pile;
-	t_pile	*b_pile;
-	char	*operations;
 
-	if (!(a_pile = make_pile(ac, av, 0)))
+// VERIF SI PAS DE DOUBLON	
+	a_pile = NULL;
+	i = -1;
+	while (++i < ac - (1 + visualize))
 	{
-		write(1, "Error\n", 6);
-		return (1);
+		j = -1;
+		while (av[i + (1 + visualize)][++j])
+		{
+			if (ft_isdigit(av[i + (1 + visualize)][j]) != 1)
+				return (NULL);
+		}
+		ft_lstaddend(&a_pile, ft_lstnew(ft_atoi(av[i + (1 + visualize)])));
 	}
-	ft_putlst(a_pile);
-	if (!(b_pile = (t_pile*)malloc(sizeof(t_pile))))
-		return (1);
-	if (!(operations = ft_quick_sort(&a_pile, NULL)))
-		return (1);
-	printf("OK\n");
-	write(1, operations, ft_strlen(operations));
-	free(operations);
-	return (0);
+	return (a_pile);
 }

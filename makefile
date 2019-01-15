@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/14 12:27:43 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/15 15:19:51 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,11 +50,17 @@ LIB_NAME = ft_strcpy.c\
 SRC_NAME_CHECK= ft_checker.c \
 				ft_oper_fcts.c \
 				ft_visualizer.c \
-				lst_fcts.c
+				lst_fcts.c \
+				ft_make_pile.c
 
 SRC_NAME_PUSH = ft_push_swap.c \
+				ft_oper_fcts.c \
+				ft_quick_sort.c \
+				lst_fcts.c \
+				ft_make_pile.c
 
-INC_NAME = push_swap.h
+INC_NAME = push_swap.h \
+		   libft.h
 
 SRC_PUSH = $(addprefix $(SRC_PATH)/, $(SRC_NAME_PUSH))
 SRC_CHECK = $(addprefix $(SRC_PATH)/, $(SRC_NAME_CHECK))
@@ -72,7 +78,8 @@ all : $(NAME)
 
 .PHONY : clean fclean re
 
-$(NAME) : $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
+$(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
+	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) -I $(INC_PATH)
 	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)
 
 clean :

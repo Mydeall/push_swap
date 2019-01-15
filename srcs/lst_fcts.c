@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 14:10:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/11 15:36:44 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/15 14:53:43 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_pile	*ft_lstnew(int nb)
 	if (!(new = (t_pile*)malloc(sizeof(t_pile) * 1)))
 		return (NULL);
 	new->nb = nb;
+	new->p = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -81,4 +82,14 @@ void	ft_putlst(t_pile *lst)
 		lst = lst->next;
 	}
 	ft_putstr("}\n");
+}
+
+t_pile	*ft_lstgetlast(t_pile *lst)
+{
+	t_pile	*current;
+
+	current = lst;
+	while (current)
+		current = current->next;
+	return (current);
 }
