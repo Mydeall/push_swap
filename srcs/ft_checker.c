@@ -6,14 +6,14 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/14 14:38:10 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/15 11:43:25 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-static t_pile	*make_pile(int ac, char *av[])
+static t_pile	*make_pile(int ac, char *av[], int visualize)
 {
 	int		i;
 	int		j;
@@ -21,15 +21,15 @@ static t_pile	*make_pile(int ac, char *av[])
 	
 	a_pile = NULL;
 	i = -1;
-	while (++i < ac - 1)
+	while (++i < ac - (1 + visualize))
 	{
 		j = -1;
-		while (av[i + 1][++j])
+		while (av[i + (1 + visualize)][++j])
 		{
-			if (ft_isdigit(av[i + 1][j]) != 1)
+			if (ft_isdigit(av[i + (1 + visualize)][j]) != 1)
 				return (NULL);
 		}
-		ft_lstaddend(&a_pile, ft_lstnew(ft_atoi(av[i + 1])));
+		ft_lstaddend(&a_pile, ft_lstnew(ft_atoi(av[i + (1 + visualize)])));
 	}
 	return (a_pile);
 }
@@ -60,9 +60,8 @@ static int		verif_operations(char **operations)
 	return (0);
 }
 
-
-
-static int		apply_operation(char **operations, t_pile **a_pile, t_pile **b_pile)
+static int		apply_operation(char **operations, t_pile **a_pile, t_pile **b_pile,\
+		int visualize)
 {
 	int			i;
 	t_oper_fcts *fcts_tab;
@@ -71,45 +70,39 @@ static int		apply_operation(char **operations, t_pile **a_pile, t_pile **b_pile)
 		return (1);
 	while (*operations)
 	{
-		printf("operation to apply : %s\n", *operations);
 		i = -1;
 		while (++i < 3)
 			if (fcts_tab[i].operation == (*operations)[0])
 			{
 				fcts_tab[i].f(*operations, a_pile, b_pile);
-				ft_putlst(*a_pile);
-				ft_putlst(*b_pile);
 				break;
 			}
 		operations++;
-		if (visualizer(*a_pile, *b_pile))
+		if (visualize && visualizer(*a_pile, *b_pile))
 			return (1);
 	}
 	return (0);
 }
 
-static int	operations_applier(char **operations, t_pile *a_pile)
+static int	operations_applier(char **operations, int ac, char **av, int visualize)
 {
-	t_pile		*b_pile;
+	t_pile	*b_pile;
+	t_pile	*a_pile;
 
-	if (verif_operations(operations)) 
-		return (1);
-	b_pile = NULL;
-	if (apply_operation(operations, &a_pile, &b_pile))
-		return (1);
-	printf("applied\n");
-	ft_putlst(a_pile);
-	while (a_pile->next)
+	if (!(a_pile = make_pile(ac, av, visualize)) || verif_operations(operations))
 	{
-		if (a_pile->nb > (a_pile->next)->nb || b_pile)
-		{
-			write(1, "KO", 2);
-			break;
-		}
-		a_pile = a_pile->next;
+		write(1, "Error\n", 6);
+		return (1);
 	}
-	if (a_pile->next == NULL)
+	b_pile = NULL;
+	if (apply_operation(operations, &a_pile, &b_pile, visualize))
+		return (1);
+	while (a_pile->next && a_pile->nb > (a_pile->next)->nb )
+		a_pile = a_pile->next;
+	if (!(a_pile->next) && !(b_pile))
 		write(1, "OK", 2);
+	else
+		write(1, "KO", 2);
 	return (0);
 }
 
@@ -117,12 +110,12 @@ int	main(int ac, char *av[])
 {
 	int		ret;
 	char	buff[BUFF_SIZE + 1];
-	t_pile	*a_pile;
 	char	**operations;
 	char	*tmp;
+	int		visualize;
 
-	if (!(a_pile = make_pile(ac, av)) || 
-			!(operations = (char**)malloc(sizeof(char*))) ||
+	visualize = ft_strcmp(av[1], "-v") ? 0 : 1;
+	if (!(operations = (char**)malloc(sizeof(char*))) ||
 			!(*operations = (char*)malloc(1)))
 		return (1);
 	while ((ret = read(0, buff, BUFF_SIZE)))
@@ -139,7 +132,6 @@ int	main(int ac, char *av[])
 	if (!(operations = ft_strsplit(*operations, '\n')))
 		return (1);
 	ft_strdel(&tmp);
-	ft_putstrtab(operations);
-	operations_applier(operations, a_pile);
+	operations_applier(operations, ac, av, visualize);
 	return (0);
 }

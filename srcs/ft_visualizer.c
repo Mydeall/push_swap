@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 11:56:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/14 16:52:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/15 11:43:27 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,133 +35,59 @@ static int	find_max(t_pile *a_pile, t_pile *b_pile)
 	}
 	return (int_max);
 }
-/*
-static void	determine_values(int (*len)[2], t_pile *(*current)[2],\
-		int (*values)[2])
+
+static int	determine_value(int len, int len_o, t_pile **pile,\
+		int *value)
 {
-	*(values[0]) = 0;
-	*(values[1]) = 0;
-//	printf("determine values : %d | %d\n", *(values[0]), *(values[1]));
-	printf("len : %d | %d\n", *(len[0]), *(len[1]));
-	if (*(len[0]) >= *(len[1]))
+	*value = 0;
+	if (len >= len_o)
 	{
-		printf("%d\n", (*(current[0]))->nb);
-		*(values[0]) = (*(current[0]))->nb;
-		printf("a\n");
-		if (*(len[1]) >= *(len[0]))
-		{
-			printf("b\n");
-			*(values[1]) = (*(current[1]))->nb;
-			*(len[1]) -= 1;
-			*(current[1]) = (*(current[1]))->next;
-		}
-		*(len[0]) -= 1;
-		*(current[0]) = (*(current[0]))->next;
+		*value = (*pile)->nb;
+		*pile = (*pile)->next;
+		return (len - 1);
 	}
-	else
-	{
-		printf("b\n");
-		*(values[1]) = (*(current[1]))->nb;
-		*(len[1]) -= 1;
-		*(current[1]) = (*(current[1]))->next;
-	}
-//	printf("determine values : %d | %d\n", *(values[0]), *(values[1]));
-}
-*/
-static void	determine_values(int (*len)[2], t_pile *(*current)[2],\
-		int (*values)[2])
-{
-	*(values[0]) = 0;
-	*(values[1]) = 0;
-//	printf("determine values : %d | %d\n", *(values[0]), *(values[1]));
-	printf("len : %d | %d\n", *(len[0]), *(len[1]));
-	if (*(len[0]) >= *(len[1]))
-	{
-		printf("%d\n", (*(current[0]))->nb);
-		*(values[0]) = (*(current[0]))->nb;
-		printf("a\n");
-		if (*(len[1]) >= *(len[0]))
-		{
-			printf("b\n");
-			*(values[1]) = (*(current[1]))->nb;
-			*(len[1]) -= 1;
-			*(current[1]) = (*(current[1]))->next;
-		}
-		*(len[0]) -= 1;
-		*(current[0]) = (*(current[0]))->next;
-	}
-	else
-	{
-		printf("b\n");
-		*(values[1]) = (*(current[1]))->nb;
-		*(len[1]) -= 1;
-		*(current[1]) = (*(current[1]))->next;
-	}
-//	printf("determine values : %d | %d\n", *(values[0]), *(values[1]));
+	return (len);
 }
 
-static int	display_values(int values[2], int int_max)
+static int	display_values(int a_value, int b_value, int int_max)
 {
-	char	*a_values;
-	char	*b_values;
+	char	*a_str;
+	char	*b_str;
 
-	if (!(a_values = (char*)malloc(values[0] + 1)) ||\
-				!(b_values = (char*)malloc(values[1] + 1)))
+	(void)int_max;
+	if (!(a_str= (char*)malloc(a_value + 1)) ||\
+				!(b_str= (char*)malloc(b_value + 1)))
 		return (1);
-	a_values = ft_memset(a_values, '|', values[0]);
-	b_values = ft_memset(b_values, '|', values[1]);
-	printf("%*s  %*s\n", int_max, a_values, int_max, b_values);
+	a_str= ft_memset(a_str, '|', a_value);
+	b_str= ft_memset(b_str, '|', b_value);
+	a_str[a_value] = 0;
+	b_str[b_value] = 0;
+	printf("%*s  %*s\n", int_max, a_str, int_max, b_str);
+	free(a_str);
+	free(b_str);
 	return (0);
 }
 
 int			visualizer(t_pile *a_pile, t_pile *b_pile)
 {
 	int		int_max;
-	t_pile	*a_current;
-	t_pile	*b_current;
-	int		len;
-	int		value;
-
-	int_max = find_max(a_pile, b_pile);
-	len[0] = ft_lstlen(a_pile);
-	len[1] = ft_lstlen(b_pile);
-	a_current = a_pile;
-	b_current = b_pile;
-	sleep(1);
-	system("clear");
-	printf("len : %d | %d\n", len[0], len[1]);
-	while (a_current || b_current)
-	{
-		determine_values(&len, &current, &values);
-		printf("values : %d | %d\n", values[0], values[1]);
-		if (display_values(values, int_max))
-			return (1);
-	}
-	return (1);
-}
-/*
-int			visualizer(t_pile *a_pile, t_pile *b_pile)
-{
-	int		int_max;
-	t_pile	*(current[2]);
 	int		len[2];
-	int		values[2];
+	int		a_value;
+	int		b_value;
+	int		tmp;
 
 	int_max = find_max(a_pile, b_pile);
 	len[0] = ft_lstlen(a_pile);
 	len[1] = ft_lstlen(b_pile);
-	current[0] = a_pile;
-	current[1] = b_pile;
 	sleep(1);
 	system("clear");
-	printf("len : %d | %d\n", len[0], len[1]);
-	while ((current[0]))
+	while (len[0] || len[1])
 	{
-		determine_values(&len, &current, &values);
-		printf("values : %d | %d\n", values[0], values[1]);
-		if (display_values(values, int_max))
+		tmp = determine_value(len[0], len[1], &a_pile, &a_value);
+		len[1] = determine_value(len[1], len[0], &b_pile, &b_value);
+		len[0] = tmp;
+		if (display_values(a_value, b_value, int_max))
 			return (1);
 	}
-	return (1);
+	return (0);
 }
-*/
