@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/15 15:20:12 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/16 16:54:53 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,31 +39,7 @@ static int		verif_operations(char **operations)
 	return (0);
 }
 
-static int		apply_operation(char **operations, t_pile **a_pile, t_pile **b_pile,\
-		int visualize)
-{
-	int			i;
-	t_oper_fcts *fcts_tab;
-
-	if(!(fcts_tab = make_struct()))
-		return (1);
-	while (*operations)
-	{
-		i = -1;
-		while (++i < 3)
-			if (fcts_tab[i].operation == (*operations)[0])
-			{
-				fcts_tab[i].f(*operations, a_pile, b_pile);
-				break;
-			}
-		operations++;
-		if (visualize && visualizer(*a_pile, *b_pile))
-			return (1);
-	}
-	return (0);
-}
-
-static int	operations_applier(char **operations, int ac, char **av, int visualize)
+static int	verif_result(char **operations, int ac, char *av[], int visualize)
 {
 	t_pile	*b_pile;
 	t_pile	*a_pile;
@@ -74,9 +50,9 @@ static int	operations_applier(char **operations, int ac, char **av, int visualiz
 		return (1);
 	}
 	b_pile = NULL;
-	if (apply_operation(operations, &a_pile, &b_pile, visualize))
+	if (operations_applier(operations, &a_pile, &b_pile, visualize))
 		return (1);
-	while (a_pile->next && a_pile->nb > (a_pile->next)->nb )
+	while (a_pile->next && a_pile->nb < (a_pile->next)->nb )
 		a_pile = a_pile->next;
 	if (!(a_pile->next) && !(b_pile))
 		write(1, "OK", 2);
@@ -111,6 +87,7 @@ int	main(int ac, char *av[])
 	if (!(operations = ft_strsplit(*operations, '\n')))
 		return (1);
 	ft_strdel(&tmp);
+	ft_putstrtab(operations);
 	operations_applier(operations, ac, av, visualize);
 	return (0);
 }

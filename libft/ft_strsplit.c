@@ -6,10 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/09 10:37:22 by ccepre            #+#    #+#             */
-/*   Updated: 2018/11/17 12:32:57 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/16 14:26:07 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
 
 static void		free_tab(char **tab, int count)
@@ -25,12 +26,12 @@ static char		**filltab(char **tab, char *str, int count, char c)
 	int		j;
 
 	j = -1;
-	while (*str == c)
+	while (str && *str == c)
 		str++;
 	while (++j < count)
 	{
 		i = 0;
-		while (str[i] != c)
+		while (str[i] != c && str[i])
 			i++;
 		if (!(tab[j] = ft_strsub(str, 0, i)))
 		{

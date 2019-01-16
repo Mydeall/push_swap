@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/15 15:19:51 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/16 13:32:52 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ LIB_NAME = ft_strcpy.c\
 		   ft_strcat.c\
 		   ft_strchr.c\
 		   ft_strjoin.c\
+		   ft_strjoinarg.c\
 		   ft_strnew.c\
 		   ft_strcmp.c\
 		   ft_strlen.c\

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/15 15:31:28 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/16 17:09:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,20 @@
 
 int main(int ac, char *av[])
 {
-	t_pile	*a_pile;
-	t_pile	*b_pile;
-	char	*operations;
+	t_stacks	stacks;
 
-	if (!(a_pile = make_pile(ac, av, 0)))
+	if (!(stacks.a_pile = (t_pile*)malloc(sizeof(t_pile))) ||\
+			(!(stacks.b_pile = (t_pile*)malloc(sizeof(t_pile)))))
+		return (1);
+	if (!(stacks.a_pile = make_pile(ac, av, 0)))
 	{
 		write(1, "Error\n", 6);
 		return (1);
 	}
-	ft_putlst(a_pile);
-	if (!(b_pile = (t_pile*)malloc(sizeof(t_pile))))
+	stacks.b_pile = NULL;
+	if (ft_quick_sort(&stacks))
 		return (1);
-	if (!(operations = ft_quick_sort(&a_pile, NULL)))
-		return (1);
-	printf("OK\n");
-	write(1, operations, ft_strlen(operations));
-	free(operations);
+	write(1, stacks.operations, ft_strlen(stacks.operations))
+	free(stacks.operations);
 	return (0);
 }

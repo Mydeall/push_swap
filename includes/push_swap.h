@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/15 15:18:46 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/16 17:09:01 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,13 @@ typedef struct	s_pile
 	int			p;
 	struct s_pile	*next;
 }				t_pile;
+
+typedef struct	s_stacks
+{
+	t_pile		*a_pile;
+	t_pile		*b_pile;
+	char		*operations;
+}				t_stacks;
 
 typedef struct	s_oper_fcts
 {
