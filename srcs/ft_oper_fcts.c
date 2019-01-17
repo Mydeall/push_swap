@@ -6,32 +6,32 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:55:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/11 16:43:14 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/17 11:17:08 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-void		swap(char *operation, t_pile **a_pile, t_pile **b_pile)
+void		swap(char *action, t_pile **a_pile, t_pile **b_pile)
 {
-	if (operation[1] != 'b')
+	if (action[1] != 'b')
 		ft_swap(&((*a_pile)->nb), &((*a_pile)->next)->nb);
-	if (operation[1] != 'a')
+	if (action[1] != 'a')
 		ft_swap(&((*b_pile)->nb), &((*b_pile)->next)->nb);
 }
 
-void		push(char *operation, t_pile **a_pile, t_pile **b_pile)
+void		push(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	t_pile	*tmp;
 
-	if (operation[1] == 'a' && *b_pile)
+	if (action[1] == 'a' && *b_pile)
 	{
 		tmp = *b_pile;
 		*b_pile = (*b_pile)->next;
 		ft_lstadd(a_pile, tmp);
 	}
-	else if (operation[1] == 'b' && *a_pile)
+	else if (action[1] == 'b' && *a_pile)
 	{
 		tmp = *a_pile;
 		*a_pile = (*a_pile)->next;
@@ -61,15 +61,15 @@ static void	rotation(t_pile **pile, int side)
 	}
 }
 
-void		rotate(char *operation, t_pile **a_pile, t_pile **b_pile)
+void		rotate(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	int side;
 
-	side = ft_strlen(operation) == 2 ? 1 : -1;
-	operation = ft_strlen(operation) == 2 ? operation + 1 : operation + 2;
-	if (*operation != 'b' && ft_lstlen(*a_pile) > 1)
+	side = ft_strlen(action) == 2 ? 1 : -1;
+	action = ft_strlen(action) == 2 ? action + 1 : action + 2;
+	if (*action != 'b' && ft_lstlen(*a_pile) > 1)
 		rotation(a_pile, side);
-	if (*operation != 'a' && ft_lstlen(*b_pile) > 1)
+	if (*action != 'a' && ft_lstlen(*b_pile) > 1)
 		rotation(b_pile, side);
 }
 
@@ -79,11 +79,11 @@ t_oper_fcts	*make_struct(void)
 
 	if (!(fcts_tab = (t_oper_fcts*)malloc(sizeof(t_oper_fcts) * 3)))
 		return (NULL);
-	fcts_tab[0].operation = 's';
+	fcts_tab[0].action = 's';
 	fcts_tab[0].f = &swap;
-	fcts_tab[1].operation = 'p';
+	fcts_tab[1].action = 'p';
 	fcts_tab[1].f = &push;
-	fcts_tab[2].operation = 'r';
+	fcts_tab[2].action = 'r';
 	fcts_tab[2].f = &rotate;
 	return (fcts_tab);
 }

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/16 17:09:30 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/17 19:42:34 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@
 int main(int ac, char *av[])
 {
 	t_stacks	stacks;
+	char		*operations;
+	t_oper_fcts	*fcts_tab;
+	char		*tmp;
 
-	if (!(stacks.a_pile = (t_pile*)malloc(sizeof(t_pile))) ||\
-			(!(stacks.b_pile = (t_pile*)malloc(sizeof(t_pile)))))
+	stacks.a_pile = NULL;
+	stacks.b_pile = NULL;
+	operations = NULL;
+	if (!(fcts_tab = make_struct()))
 		return (1);
 	if (!(stacks.a_pile = make_pile(ac, av, 0)))
 	{
@@ -26,9 +31,14 @@ int main(int ac, char *av[])
 		return (1);
 	}
 	stacks.b_pile = NULL;
-	if (ft_quick_sort(&stacks))
+	if (ft_quick_sort(&stacks, &operations, fcts_tab))
 		return (1);
-	write(1, stacks.operations, ft_strlen(stacks.operations))
-	free(stacks.operations);
+	printf("%s", operations);
+	tmp = operations;
+	if (!(operations = ft_simplifier(ft_strsplit(operations, '\n'))))
+		return (1);
+	free(tmp);
+	write(1, operations, ft_strlen(operations));
+	free(operations);
 	return (0);
 }

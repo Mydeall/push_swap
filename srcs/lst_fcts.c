@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 14:10:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/16 11:54:16 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/17 18:15:04 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,25 @@ size_t	ft_lstlen(t_pile *lst)
 		lst = lst->next;
 	}
 	return (size);
+}
+
+int	ft_lstgetpos(t_pile *lst, int nb)
+{
+	t_pile	*current;
+	int		i;
+
+	current = lst;
+	i = -1;
+	while (current)
+	{
+		i++;
+		if (current->nb == nb)
+			break ;
+		current = current->next;
+		if (current->next == NULL && current->nb != nb)
+			return (-1);
+	}
+	return (i);
 }
 
 void	ft_putlst(t_pile *lst)

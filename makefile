@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/16 13:32:52 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/17 19:33:41 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,19 +46,24 @@ LIB_NAME = ft_strcpy.c\
 		   ft_putendl.c \
 		   ft_putinttab.c \
 		   ft_putnbr.c \
-		   ft_itoa.c
+		   ft_itoa.c \
+		   ft_strjointab.c
 
 SRC_NAME_CHECK= ft_checker.c \
 				ft_oper_fcts.c \
 				ft_visualizer.c \
 				lst_fcts.c \
-				ft_make_pile.c
+				ft_make_pile.c \
+				ft_operations_applier.c
 
 SRC_NAME_PUSH = ft_push_swap.c \
 				ft_oper_fcts.c \
+				ft_visualizer.c \
 				ft_quick_sort.c \
 				lst_fcts.c \
-				ft_make_pile.c
+				ft_make_pile.c \
+				ft_operations_applier.c \
+				ft_simplifier.c
 
 INC_NAME = push_swap.h \
 		   libft.h

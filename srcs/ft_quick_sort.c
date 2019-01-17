@@ -6,172 +6,204 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 13:52:39 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/16 17:21:04 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/17 18:46:41 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-/*
-static int	three_sort(t_stack *stacks)
+static int	three_sort(t_stacks *stacks, char **operations, t_oper_fcts *fcts_tab)
 {
-	if ((*a_pile)->nb < ((*a_pile)->next)->nb &&\
-		   	(*a_pile)->nb < (*a_pile)->next->next->nb)
+	char	*actions;
+
+//	printf("--------THREE SORT-------\n");
+	actions = "";
+	if (stacks->a_pile->nb < stacks->a_pile->next->nb &&\
+		   	stacks->a_pile->nb < stacks->a_pile->next->next->nb)
 	{
-		if (((*a_pile)->next)->nb > ((*a_pile)->next->next)->nb)
-		{
-			push("pb", a_pile, b_pile);
-			swap("sa", a_pile, b_pile);
-			push("pa", a_pile, b_pile);
-			if (add_operation(operations, "pb\nsa\npa", 0))
-				return (1);
-		}
+		if (stacks->a_pile->next->nb > stacks->a_pile->next->next->nb)
+			actions = "pb\nsa\npa";
 	}
-	else if ((*a_pile)->nb < ((*a_pile)->next)->nb ||\
-		   	(*a_pile)->nb < (*a_pile)->next->next->nb)
+	else if (stacks->a_pile->nb < stacks->a_pile->next->nb ||\
+		   	stacks->a_pile->nb < stacks->a_pile->next->next->nb)
 	{
-		if (((*a_pile)->next)->nb > ((*a_pile)->next->next)->nb)
-		{
-			rotate("rra", a_pile, b_pile);	
-			if (add_operation(operations, "rra", 0))
-				return (1);
-		}
+		if (stacks->a_pile->next->nb > stacks->a_pile->next->next->nb)
+			actions = "rra";
 		else
-		{
-			rotate("sa", a_pile, b_pile);	
-			if (add_operation(operations, "sa", 0))
-				return (1);
-		}
+			actions = "sa";
 	}
 	else
 	{
-		if (((*a_pile)->next)->nb > ((*a_pile)->next->next)->nb)
-		{
-			rotate("ra", a_pile, b_pile);	
-			swap("sa", a_pile, b_pile);	
-			if (add_operation(operations, "ra\nsa", 0))
-				return (1);
-		}
+		if (stacks->a_pile->next->nb > stacks->a_pile->next->next->nb)
+			actions = "ra\nsa";
 		else
-		{
-			rotate("ra", a_pile, b_pile);	
-			if (add_operation(operations, "ra", 0))
-				return (1);
-		}
+			actions = "ra";
 	}
-	return (1);
-}
-*/
-
-static int	add_operation(char **operations, char *action, int end)
-{
-	char	*tmp;
-	char	*end_str;
-
-	tmp = *operations;
-	end_str = "";
-	if (!end)
-		end_str = "\n";
-	if (!(*operations = ft_strjoinarg(3, *operations, action, end_str)))
+	if (append_actions(actions, stacks, operations, fcts_tab))
 		return (1);
-	free(tmp);
+	while (stacks->a_pile)
+	{
+		stacks->a_pile->p = 1;
+		if (append_actions("pb", stacks, operations, fcts_tab))
+			return (1);
+	}
+//	ft_putlst(stacks->a_pile);
+//	ft_putlst(stacks->b_pile);
+//	getchar();
+//	printf("----THREE SORT DONE-----\n");
 	return (0);
 }
 
-static int	sort_sub_lst(t_stack *stacks)
+static int	little_list_sort(t_stacks *stacks, char **operations, t_oper_fcts *fcts_tab)
+{
+	int len;
+	int pos;
+	int	min;
+	t_pile	*current;
+	int	i;
+
+	len = ft_lstlen(stacks->a_pile);
+	i = len;
+	while (--i >= 3)
+	{
+//		printf("-----SELECTION SORT------\n");
+		current = stacks->a_pile;
+		min = current->nb;
+		while (current)
+		{
+			if (current->nb < min)
+				min = current->nb;
+			current = current->next;
+		}
+//		ft_putlst(stacks->a_pile);
+		pos = ft_lstgetpos(stacks->a_pile, min);
+//		printf("min : %d\npos : %d\n", min, pos);
+		if (pos <= len / 2)
+		{
+			while (pos--)
+				if (append_actions("ra", stacks, operations, fcts_tab))
+					return (1);
+		}
+		else
+			while (++pos <= len)
+				if (append_actions("rra", stacks, operations, fcts_tab))
+					return (1);
+		stacks->a_pile->p = 1;
+		if (append_actions("pb", stacks, operations, fcts_tab))
+			return (1);
+//		ft_putlst(stacks->a_pile);
+//		ft_putlst(stacks->b_pile);
+//		getchar();
+//		printf("----SELECTION SORT DONE-----\n");
+	}
+	if (i == 2)
+		return (three_sort(stacks, operations, fcts_tab));
+	else
+	{
+//		printf("----ONE TWO SORT-----\n");
+		if (len == 2)
+			if (stacks->a_pile->nb > stacks->a_pile->next->nb)
+				if (append_actions("sa", stacks, operations, fcts_tab))
+					return (1);
+		while (stacks->a_pile)
+		{
+			stacks->a_pile->p = 1;
+			if (append_actions("pb", stacks, operations, fcts_tab))
+				return (1);
+		}
+//		ft_putlst(stacks->a_pile);
+//		ft_putlst(stacks->b_pile);
+//		getchar();
+//		printf("----ONE TWO SORT DONE-----\n");
+	}
+	return (0);
+}
+
+static int	sort_sub_lst(t_stacks *stacks, char **operations, t_oper_fcts *fcts_tab)
 {
 	t_pile	*pivot;
 	char	*action;
 
 //	printf("--------SORT-------\n");
-	pivot = ft_lstgetlast((*stacks).a_pile);
-//	printf("pivot : %d\n", pivot->nb);
+	if (ft_lstlen(stacks->a_pile) < SUBLST_SIZE)
+		return (little_list_sort(stacks, operations, fcts_tab));
+	pivot = ft_lstgetlast(stacks->a_pile);
 	pivot->p = 1;
-	while ((*stacks).a_pile != pivot)
+	while (stacks->a_pile != pivot)
 	{
-		if ((*a_pile)->nb > pivot->nb && (*a_pile)->next)
-		{
+		if (stacks->a_pile->nb > pivot->nb && stacks->a_pile->next)
 			action = "ra";
-			rotate(action, &((*stacks).a_pile), &((*stacks).b_pile));
-		}
 		else
-		{
 			action = "pb";
-			push(action, &((*stacks).a_pile), &((*stacks).b_pile));
-		}
-		if (add_operation(&((*stacks).operations), action, 0))
+		if (append_actions(action, stacks, operations, fcts_tab))
 			return (1);
 	}
-	push("pb", &((*stacks).a_pile), &((*stacks).b_pile));
-	if (add_operation(operations, "pb", 0))
+	if (append_actions("pb", stacks, operations, fcts_tab))
 		return (1);
-//	ft_putlst(*a_pile);
-//	ft_putlst(*b_pile);
+//	ft_putlst(stacks->a_pile);
+//	ft_putlst(stacks->b_pile);
 //	getchar();
 //	printf("----SORT DONE-----\n");
 	return (0);
 }
 
-static int	isolate_sub_lst(t_stacks *stacks, int *last)
+static int	isolate_sub_lst(t_stacks *stacks, char **operations, t_oper_fcts *fcts_tab, int *last)
 {
 //	printf("------ ISOLATE -------\n");
-	while ((*stacks).b_pile->p && (*stacks).b_pile->nb != *last)
+	while (stacks->b_pile->p && stacks->b_pile->nb != *last)
 	{
-		if (add_operation((*stacks).operations, "rb", 0))
+		if (append_actions("rb", stacks, operations, fcts_tab))
 			return (1);
-		rotate("rb", &((*stacks).a_pile), &((*stacks).b_pile));
 	}
-	while (!((*stacks).b_pile)->p)
+	while (!(stacks->b_pile->p))
 	{
-		if (add_operation(operations, "pa", 0))
+		if (append_actions("pa", stacks, operations, fcts_tab))
 			return (1);
-		push("pa", &((*stacks).a_pile), &((*stacks).b_pile));
 	}
-//	ft_putlst(*a_pile);
-//	ft_putlst(*b_pile);
+//	ft_putlst(stacks->a_pile);
+//	ft_putlst(stacks->b_pile);
 //	printf("----ISOLATE DONE-----\n");
 //	getchar();
 	return (0);
 }
 
-char		*ft_quick_sort(t_stacks *stacks)
+int			ft_quick_sort(t_stacks *stacks, char **operations,  t_oper_fcts *fcts_tab)
 {
 	int		*last;
-	int		end;
+	int	len;
+	int end;
 
-	end = 0;
 	last = NULL;
+	len = ft_lstlen(stacks->a_pile);
+	end = 0;
+	if (len < SUBLST_SIZE)
+	{
+		if (little_list_sort(stacks, operations, fcts_tab))
+			return (1);
+		end = 1;
+	}
 	while (!end)
 	{
-		while ((*stacks).a_pile)
-		{
-			if (sort_sub_lst(stacks) == 1)
+		while (stacks->a_pile)
+			if (sort_sub_lst(stacks, operations, fcts_tab) == 1)
 				return (1);
-		}
 		if (!last)
 		{
 			if (!(last = (int*)malloc(sizeof(int))))
 				return(1);
-			*last = (*stacks).b_pile->nb; 
-			if (add_operation(&operations, "rb", 0))
+			*last = stacks->b_pile->nb; 
+			if (append_actions("rb", stacks, operations, fcts_tab))
 				return (1);
-			rotate("rb", (*stacks).a_pile, (*stacks).b_pile);
 		}
-		if (isolate_sub_lst(stacks, last) == 1)
+		if (isolate_sub_lst(stacks, operations, fcts_tab, last) == 1)
 			return (1);
-		if (last && (*b_pile)->nb == *last && !(*a_pile))
+		if (last && stacks->b_pile->nb == *last && !(stacks->a_pile))
 			end = 1;
 	}
-	end = 0;
-	while ((*stacks).b_pile)
-	{
-		if (!(*stacks).b_pile->next)
-			end = 1;
-		if (add_operation(&((*stacks).operations), "pa", end))
+	while (stacks->b_pile)
+		if (append_actions("pa", stacks, operations, fcts_tab))
 			return (1);
-		push("pa", (*stacks).a_pile, (*stacks).b_pile);
-	}
 //	ft_putlst(*a_pile);
 //	ft_putlst(*b_pile);
 //	printf("OK\n");

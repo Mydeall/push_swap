@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/16 16:54:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/17 17:56:29 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,27 @@ static int		verif_operations(char **operations)
 
 static int	verif_result(char **operations, int ac, char *av[], int visualize)
 {
-	t_pile	*b_pile;
-	t_pile	*a_pile;
+	t_stacks *stacks;
+	t_oper_fcts	*fcts_tab;
 
-	if (!(a_pile = make_pile(ac, av, visualize)) || verif_operations(operations))
+	if (!(stacks = (t_stacks*)malloc(sizeof(t_stacks))) ||
+			!(fcts_tab = make_struct()))
+		return (1);
+	if (!(stacks->a_pile = make_pile(ac, av, visualize)) || verif_operations(operations))
 	{
 		write(1, "Error\n", 6);
 		return (1);
 	}
-	b_pile = NULL;
-	if (operations_applier(operations, &a_pile, &b_pile, visualize))
-		return (1);
-	while (a_pile->next && a_pile->nb < (a_pile->next)->nb )
-		a_pile = a_pile->next;
-	if (!(a_pile->next) && !(b_pile))
+	stacks->b_pile = NULL;
+	while (*operations)
+	{
+		if (action_applier(*operations, stacks, fcts_tab, visualize) == 1)
+			return (1);
+		operations++;
+	}
+	while (stacks->a_pile && stacks->a_pile->next && stacks->a_pile->nb < stacks->a_pile->next->nb)
+		stacks->a_pile = stacks->a_pile->next;
+	if (stacks->a_pile && !(stacks->a_pile->next) && !(stacks->b_pile))
 		write(1, "OK", 2);
 	else
 		write(1, "KO", 2);
@@ -87,7 +94,6 @@ int	main(int ac, char *av[])
 	if (!(operations = ft_strsplit(*operations, '\n')))
 		return (1);
 	ft_strdel(&tmp);
-	ft_putstrtab(operations);
-	operations_applier(operations, ac, av, visualize);
+	verif_result(operations, ac, av, visualize);
 	return (0);
 }
