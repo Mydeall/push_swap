@@ -28,16 +28,19 @@ def test_n_time_x_elem(nbr, x):
         nbr_op = len(output.split())
         if i == 0:
             min_op = max_op = nbr_op
+            moy_op = 0
         result.append(nbr_op)
         if nbr_op > max_op:
             max_op = nbr_op
         if nbr_op < min_op:
             min_op = nbr_op
+        moy_op += nbr_op
         i = i + 1
     print str(nbr) + " tests for " + str(x) + " elements"
     print result
     print "minimum d'operations: " + str(min_op)
     print "maximum d'operations: " + str(max_op)
+    print "moyenne d'operations: " + str(moy_op / len(result))
     print "---------------------"
 
 if (len(sys.argv) == 2):
