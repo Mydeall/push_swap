@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/22 15:20:06 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/23 13:44:19 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ static int		verif_operations(char **operations)
 static int	verif_result(char **operations, int ac, char *av[], int visualize)
 {
 	t_stacks *stacks;
-	t_oper_fcts	*fcts_tab;
 
 	if (!(stacks = (t_stacks*)malloc(sizeof(t_stacks))) ||
-			!(fcts_tab = make_struct()))
+			!(stacks->fcts_tab = make_struct()))
 		return (1);
 	if (!(stacks->a_pile = make_pile(ac, av, visualize)) || verif_operations(operations))
 	{
@@ -58,7 +57,7 @@ static int	verif_result(char **operations, int ac, char *av[], int visualize)
 			return (1);
 	while (*operations)
 	{
-		if (action_applier(*operations, stacks, fcts_tab, visualize) == 1)
+		if (action_applier(*operations, stacks, visualize) == 1)
 			return (1);
 		operations++;
 	}

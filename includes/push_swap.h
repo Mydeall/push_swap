@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/22 15:24:38 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/23 17:17:01 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,25 @@ typedef struct	s_pile
 	struct s_pile	*next;
 }				t_pile;
 
-typedef struct	s_stacks
-{
-	t_pile		*a_pile;
-	t_pile		*b_pile;
-}				t_stacks;
-
 typedef struct	s_oper_fcts
 {
 	char		action;
 	void		(*f)(char*, t_pile**, t_pile**);
 }				t_oper_fcts;
+
+typedef struct	s_stacks
+{
+	t_pile		*a_pile;
+	t_pile		*b_pile;
+	t_oper_fcts *fcts_tab;
+}				t_stacks;
+
+typedef struct	s_pivot
+{
+	t_pile		*pivot;
+	int			option;
+	int			nb_action;
+}				t_pivot;
 
 t_pile          *ft_lstnew(int nb);
 void            ft_lstadd(t_pile **alst, t_pile *new);
@@ -54,15 +62,14 @@ void			rotate(char *operation, t_pile **a_pile, t_pile **b_pile);
 t_oper_fcts		*make_struct(void);
 int				visualizer(t_pile *a_pile, t_pile *b_pile);
 int				ft_quick_sort(t_stacks *stacks, char **operations,\
-		t_oper_fcts *fcts_tab, t_pile **sorted);
+		t_pile **sorted);
 int				append_actions(char *actions, t_stacks *stacks,\
-		char **operations, t_oper_fcts *fcts_tab);
+		char **operations);
 int				action_applier(char *action, t_stacks *stacks,\
-		t_oper_fcts *fcts_tab, int visualize);
+		int visualize);
 char			*ft_simplifier(char **operations);
-int				three_sort(t_stacks *stacks, char **operations, t_oper_fcts *fcts_tab);
 int				little_list_sort(t_stacks *stacks, char **operations,\
-		t_oper_fcts *fcts_tab);
-int			ft_lst_opposites(t_pile *pile, int *min, int *max);
+		int index);
+int				ft_lst_opposites(t_pile *pile, int *min, int *max);
 
 #endif
