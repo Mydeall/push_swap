@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/23 13:44:19 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/24 16:55:47 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ static int		verif_operations(char **operations)
 	{
 		len = ft_strlen(operations[i]);
 		if ((len != 2 && len != 3) || !ft_strchr("spr", operations[i][0]))
+		{
+			printf("op error : %s\n", operations[i]);
 			return (1);
+		}
 		if ((ft_strchr("ab", operations[i][1]) ||\
 					(operations[i][1] == operations[i][0] &&\
 				operations[i][1] != 'p')) && len == 2)
@@ -34,7 +37,10 @@ static int		verif_operations(char **operations)
 				ft_strchr("abr", operations[i][2]))
 			continue;
 		else
+		{
+			printf("op error : %s\n", operations[i]);
 			return (1);
+		}
 	}
 	return (0);
 }

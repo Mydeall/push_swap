@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/21 17:34:38 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/24 17:43:01 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,3 +100,7 @@ fclean : clean
 	rm -f $(NAME_CHECK)
 
 re : fclean all
+
+san : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
+	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)

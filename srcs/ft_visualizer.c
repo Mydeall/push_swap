@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 11:56:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/22 15:22:56 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/24 18:34:54 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,14 @@ int			ft_lst_opposites(t_pile *pile, int *min, int *max)
 {
 	t_pile *current;
 
-	if (!(pile) || !min || !max)
+	if (!(pile))
 		return (1);
 	current = pile;
-	*min = pile->nb;
-	*max = pile->nb;
 	while (current)
 	{
-		if (current->nb > *max)
+		if (max && current->nb > *max)
 			*max = current->nb;
-		else if (current->nb < *min)
+		else if (min && current->nb < *min)
 			*min = current->nb;
 		current = current->next;
 	}
@@ -55,11 +53,11 @@ int			visualizer(t_pile *a_pile, t_pile *b_pile)
 	int		len_a;
 	int		len_b;
 
-	if (ft_lst_opposites(a_pile, &min, &max) ||\
-			ft_lst_opposites(b_pile, &len_a, &len_b))
+	min = a_pile ? a_pile->nb : b_pile->nb;
+	max = a_pile ? a_pile->nb : b_pile->nb;
+	if ((a_pile && ft_lst_opposites(a_pile, &min, &max)) ||\
+			(b_pile && ft_lst_opposites(b_pile, &min, &max)))
 		return (1);
-	min = len_a < min ? len_a : min;
-	max = len_a < max ? len_b : max;
 	max += ft_abs(min) + 1;
 	len_a = ft_lstlen(a_pile);
 	len_b = ft_lstlen(b_pile);

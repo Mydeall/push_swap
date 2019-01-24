@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/23 14:33:43 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/24 18:07:04 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int main(int ac, char *av[])
 	stacks.b_pile = NULL;
 	if (ft_quick_sort(&stacks, &operations, &sorted))
 		return (1);
-	printf("let's go again !\n");
+	//free
 	stacks.a_pile = make_pile(ac, av, 0);
+	operations = NULL;
 	if (ft_quick_sort(&stacks, &operations, &sorted))
 		return (1);
 	tmp = operations;
