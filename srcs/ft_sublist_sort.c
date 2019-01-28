@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:48:45 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/24 18:08:00 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/28 18:40:22 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,65 +97,69 @@ static int	one_two_sort(t_stacks *stacks, char **operations, int index)
 	return (0);
 }
 
-static int	push_nbr(t_stacks *stacks, char **operations, int index, int nbr)
+char	*put_nbr_top(t_pile *pile, int index, int pos)
 {
-	int	pos_nbr;
 	char	*action;
-	t_pile	*pile;
-	int len;
+	int		len;
+	int		side;
+	char	*tmp;
+	char	*result;
 
-	pile = index ? stacks->b_pile : stacks->a_pile;
-	pos_nbr = ft_lstgetpos(pile, nbr);
 	len = ft_lstlen(pile);
-	if (pos_nbr <= len / 2)
-	{
-		action = index ? "rb" : "ra";
-		while (pos_nbr--)
-			if (append_actions(action, stacks, operations))
-				return (1);
-	}
+	if (pos<= len / 2)
+		action = index ? "rb\n" : "ra\n";
 	else
+		action = index ? "rrb\n" : "rra\n";
+	side = pos <= len / 2 ? -1 : 1;
+	if (!(result = ft_strnew(1)))
+		return (NULL);
+	while ((pos && side == -1) || (pos < len && side == 1))
 	{
-		action = index ? "rrb" : "rra";
-		while (++pos_nbr <= len)
-			if (append_actions(action, stacks, operations))
-				return (1);
+		tmp = result;
+		result = ft_strjoin(result, action);
+		free(tmp);
+		pos += side;
 	}
-	pile = index ? stacks->b_pile : stacks->a_pile;
-	pile->p = 1;
-	action = index ? "pa" : "pb";
-	if (append_actions(action, stacks, operations))
-		return (1);
-	return (0);
+	return (result);
 }
 
 int	little_list_sort(t_stacks *stacks, char **operations, int index)
 {
-	int	nbr;
+	int		nbr;
 	t_pile	*pile;
-	int	i;
+	int		i;
+	int		pos;
+	char	*action;
 
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	i = ft_lstlen(pile);
 	while (--i >= 3)
 	{
-//		printf("-----SELECTION SORT------\n");
+		printf("-----SELECTION SORT------\n");
 		pile = index ? stacks->b_pile : stacks->a_pile;
 		nbr = pile->nb;
 		if (index)
 			ft_lst_opposites(pile, NULL, &nbr);
 		else
 			ft_lst_opposites(pile, &nbr, NULL);
-		if (push_nbr(stacks, operations, index, nbr))
+		pos = ft_lstgetpos(pile, nbr);
+		if (!(action = put_nbr_top(pile, index, pos)))
 			return (1);
-//		ft_putlst(stacks->a_pile);
-//		ft_putlst(stacks->b_pile);
-//		printf("----SELECTION SORT DONE-----\n");
-//		getchar();
+		if (append_actions(action, stacks, operations))
+			return (1);
+		free(action);
+		pile = index ? stacks->b_pile : stacks->a_pile;
+		pile->p = 1;
+		action = index ? "pa" : "pb";
+		if (append_actions(action, stacks, operations))
+			return (1);
+		ft_putlst(stacks->a_pile);
+		ft_putlst(stacks->b_pile);
+		printf("----SELECTION SORT DONE-----\n");
+		getchar();
 	}
 	if (i == 2)
 		return (three_sort(stacks, operations, index));
 	else
 		return (one_two_sort(stacks, operations, index));
-	return (0);
 }

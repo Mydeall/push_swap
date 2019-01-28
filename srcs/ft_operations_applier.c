@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:47:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/23 16:22:47 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/28 18:38:09 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ int		append_actions(char *actions, t_stacks *stacks,\
 		tab_op++;
 	}
 	tmp = *operations;
+	actions = ft_strjointab((const char **)tab_op, "\n");
 	if (!(*operations = ft_strjoinarg(3, *operations, actions, "\n")))
 		return (1);
 	free(tmp);
+	free(actions);
 	return (0);
 }
 

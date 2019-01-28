@@ -1,24 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   strstr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/09 10:08:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/28 18:29:24 by ccepre           ###   ########.fr       */
+/*   Created: 2018/11/07 12:38:30 by ccepre            #+#    #+#             */
+/*   Updated: 2018/11/08 15:23:40 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strstr(const char *str, const char *to_find)
 {
-	char *str;
+	int j;
 
-	if (!(s1) || !(s2) || !(str = ft_strnew(ft_strlen(s1) + ft_strlen(s2) + 1)))
-		return (NULL);
-	str = ft_strcpy(str, s1);
-	str = ft_strcat((char*)str, (char*)s2);
-	return (str);
+	if (to_find[0] == '\0')
+		return ((char*)str);
+	while (*str != '\0')
+	{
+		j = 0;
+		while (str[j] == to_find[j] && to_find[j] != '\0')
+			j++;
+		if (to_find[j] == '\0')
+			return ((char*)str);
+		str++;
+	}
+	return (0);
 }

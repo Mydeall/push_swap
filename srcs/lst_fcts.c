@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 14:10:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/22 14:59:50 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/28 15:43:28 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_pile	*ft_lstnew(int nb)
 		return (NULL);
 	new->nb = nb;
 	new->p = 0;
+	new->first = 0;
 	new->next = NULL;
 	return (new);
 }
