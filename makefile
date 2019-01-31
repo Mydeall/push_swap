@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/01/28 17:03:04 by ccepre           ###   ########.fr        #
+#    Updated: 2019/01/30 15:36:44 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,9 @@ SRC_NAME_PUSH = ft_push_swap.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
 				ft_simplifier.c \
-				ft_sublist_sort.c \
-				ft_sort_sublst.c
+				ft_sublst_sort.c \
+				ft_selection_sort.c \
+				ft_normal_sorting.c
 
 INC_NAME = push_swap.h \
 		   libft.h

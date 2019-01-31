@@ -6,12 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 11:50:03 by ccepre            #+#    #+#             */
-/*   Updated: 2018/11/26 13:00:23 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/30 14:31:40 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft/libft.h"
+#include "libft.h"
 
 static int			save(const int fd, char *rest, t_lst_save **lst)
 {

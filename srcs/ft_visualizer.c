@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 11:56:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/24 18:34:54 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/31 12:24:03 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			visualizer(t_pile *a_pile, t_pile *b_pile)
 	len_a = ft_lstlen(a_pile);
 	len_b = ft_lstlen(b_pile);
 	len_max = len_a + len_b;
-	usleep(400000);
+	usleep(500000);
 	system("clear");
 	while (len_max)
 	{

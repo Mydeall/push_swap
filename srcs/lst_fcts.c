@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/11 14:10:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/28 15:43:28 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/30 17:40:55 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ int	ft_lstgetpos(t_pile *lst, int nb)
 		i++;
 		if (current->nb == nb)
 			break ;
-		current = current->next;
-		if (current->next == NULL && current->nb != nb)
+		if (!current->next && current->nb != nb)
 			return (-1);
+		current = current->next;
 	}
 	return (i);
 }
@@ -114,4 +114,82 @@ t_pile	*ft_lstgetlast(t_pile *lst)
 	while (current->next)
 		current = current->next;
 	return (current);
+}
+
+t_pile	*ft_nodecpy(t_pile *lst)
+{
+	t_pile	*cpy;
+
+	if (!(cpy = ft_lstnew(lst->nb)))
+		return (NULL);
+	cpy->p = lst->p;
+	cpy->first = lst->first;
+	return (cpy);
+}
+
+t_pile	*ft_lstcpy(t_pile *lst, int start, int end)
+{
+	t_pile	*current;
+	t_pile	*cpy;
+	t_pile	*start_cpy;
+	int i;
+
+	current = lst;
+	cpy = NULL;
+	i = -1;
+	while (++i <= end && current)
+	{
+		if (i >= start)
+		{
+			if (!cpy)
+			{
+				if (!(cpy = ft_nodecpy(current)))
+					return (NULL);
+				start_cpy = cpy;
+			}
+			else
+			{
+				if (!(cpy->next = ft_nodecpy(current)))
+					return (NULL);
+				cpy = cpy->next;
+			}
+		}
+		current = current->next;
+	}
+	return (start_cpy);
+}
+
+void	ft_freelst(t_pile *lst)
+{
+	t_pile	*tmp;
+
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp);
+	}
+}
+
+void	ft_delnode(t_pile **lst, int value)
+{
+	t_pile *prev;
+	t_pile *current;
+
+	current = *lst;
+	prev = NULL;
+	while (current)
+	{
+		if (current->nb == value)
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*lst = current->next;
+			free(current);
+			break ;
+		}
+		prev = current;
+		current = current->next;
+	}
 }

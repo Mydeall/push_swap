@@ -6,14 +6,14 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:51:35 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/28 18:39:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/30 18:07:32 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-static t_pile	*pivot_choice(t_pile *pile, t_pile *sorted)
+t_pile	*pivot_choice(t_pile *pile, t_pile *sorted)
 {
 	int		min;
 	int		max;
@@ -40,20 +40,21 @@ static t_pile	*pivot_choice(t_pile *pile, t_pile *sorted)
 	return (current);
 }
 
-static char	*set_action(t_pile *pile, t_pile *pivot, t_pile *first, int index)
+char	*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
 {
 	char	*action;
 	int		pos;
 	char	*tmp;
+	t_pile	*pile;
 
+	pile = index ? stacks->b_pile : stacks->a_pile;
 	if (pile == first)
 	{
 		pos = ft_lstgetpos(pile, pivot->nb);
-		if (!(action = put_nbr_top(pile, index, pos)))
+		if (!(action = put_nbr_top(pile, index, pos, stacks)))
 			return (NULL);
 		tmp = action;
-		if (!(action = index ? ft_strjoin(action, "pa") :\
-					ft_strjoin(action, "pb")))
+		if (!(action = index ? ft_strjoin(action, "pa") : ft_strdup(action)))
 			return (NULL);
 		free(tmp);
 	}
@@ -77,21 +78,21 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 	t_pile	*pile;
 	t_pile 	*first;
 
-	printf("--------- SUB_LIST_SORT -----------\n");
+//	printf("--------- SUB_LIST_SORT -----------\n");
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	if (ft_lstlen(pile) < SUBLST_SIZE)
 		return (little_list_sort(stacks, operations, index));
 	first = NULL;
-	pivot = !sorted ? ft_lstgetlast(pile) : pivot_choice(pile, sorted);
+	pivot = pivot_choice(pile, sorted);
 	pivot->p = 1;
 	while (pile)
 	{
-		printf("boucle\n");
-		ft_putlst(stacks->a_pile);
-		ft_putlst(stacks->b_pile);
-		if (!(action = set_action(pile, pivot, first, index)))
+	//	printf("boucle : %d\n", pivot->nb);
+	//	ft_putlst(stacks->a_pile);
+	//	ft_putlst(stacks->b_pile);
+		if (!(action = set_action(stacks, pivot, first, index)))
 			return (1);
-		printf("action : |%s|\n", action);
+		//printf("action : |%s|\n", action);
 		if (append_actions(action, stacks, operations))
 			return (1);
 		free(action);
@@ -101,17 +102,14 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 				   	(ft_strstr(action, "rb") && index)))
 			first = pile;
 		pile = index ? stacks->b_pile : stacks->a_pile;
-		ft_putlst(stacks->a_pile);
-		ft_putlst(stacks->b_pile);
-		printf("-------------\n");
-		getchar();
+	//	ft_putlst(stacks->a_pile);
+	//	ft_putlst(stacks->b_pile);
+	//	printf("-------------\n");
+	//	getchar();
 	}
-	if (index)
-		if (append_actions("pa", stacks, operations))
-			return (1);
-	ft_putlst(stacks->a_pile);
-	ft_putlst(stacks->b_pile);
-	printf("--------- SUB_LIST_SORT DONE -----------\n");
-	getchar();
+//	ft_putlst(stacks->a_pile);
+//	ft_putlst(stacks->b_pile);
+//	printf("--------- SUB_LIST_SORT DONE -----------\n");
+//	getchar();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 11:48:18 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/24 16:55:47 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/01/29 14:25:39 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ static int	verif_result(char **operations, int ac, char *av[], int visualize)
 		return (1);
 	}
 	stacks->b_pile = NULL;
+	stacks->rr[0] = 0;
+	stacks->rr[1] = 0;
+	stacks->rrr[0] = 0;
+	stacks->rrr[1] = 0;
 	if (visualize)
 		if (visualizer(stacks->a_pile, stacks->b_pile))
 			return (1);
