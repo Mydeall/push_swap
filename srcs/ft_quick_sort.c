@@ -6,18 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 13:52:39 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 12:36:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 15:53:13 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
-/*
-   static int	isolate_three_less()
-   {
-
-   }
-   */
 
 static int	save_pivot(t_stacks *stacks, char **operations)
 {
@@ -39,7 +33,7 @@ static int	save_pivot(t_stacks *stacks, char **operations)
 	return (0);
 }
 
-static int sort_sup_subsize(t_stacks *stacks, char **operations, t_pile *pivot)
+static int	sort_sup_subsize(t_stacks *stacks, char **operations, t_pile *pivot)
 {
 	char	*action;
 	int		pos;
@@ -64,14 +58,13 @@ static int sort_sup_subsize(t_stacks *stacks, char **operations, t_pile *pivot)
 		if (append_actions("rra", stacks, operations))
 			return (1);
 		(stacks->rrr)[1] -= 1;
-
 	}
-	if (append_actions(action, stacks, operations)) 
+	if (append_actions(action, stacks, operations))
 		return (1);
 	return (0);
 }
 
-static int sort_inf_subsize(t_stacks *stacks, char **operations,\
+static int	sort_inf_subsize(t_stacks *stacks, char **operations,\
 		t_pile *sublst, int sub_size)
 {
 	int		len;
@@ -80,7 +73,6 @@ static int sort_inf_subsize(t_stacks *stacks, char **operations,\
 
 	len = sub_size;
 	sublst = ft_sort(sublst);
-
 	printf("----ISOLATE INF-----\n");
 	getchar();
 //	ft_putlst(stacks->a_pile);
@@ -106,16 +98,13 @@ static int sort_inf_subsize(t_stacks *stacks, char **operations,\
 				len++;
 			}
 		}
-		else
-			if (append_actions("pb", stacks, operations))
-				return (1);
-//		ft_putlst(stacks->a_pile);
-//		ft_putlst(stacks->b_pile);
-//		printf("------------\n");
-//		getchar();
+		else if (append_actions("pb", stacks, operations))
+			return (1);
 	}
 //	ft_putlst(stacks->a_pile);
 //	ft_putlst(stacks->b_pile);
+//	printf("------------\n");
+//	getchar();
 	printf("----ISOLATE INF DONE-----\n");
 	getchar();
 	return (0);
@@ -135,7 +124,8 @@ static int	isolate_sub_lst(t_stacks *stacks, char **operations,\
 	sublst = stacks->a_pile;
 	while (!sublst->p && ++sub_size)
 		sublst = sublst->next;
-//	printf("choix action : section or sort sub ? --> sub_size = %d\n", sub_size);
+//	printf("choix action : section or sort sub ? \
+//	--> sub_size = %d\n", sub_size);
 //	getchar();
 	if (!sub_size)
 		return (0);
@@ -162,15 +152,15 @@ static int	isolate_sub_lst(t_stacks *stacks, char **operations,\
 
 int			ft_quick_sort(t_stacks *stacks, char **operations, t_pile **sorted)
 {
-	int end;
-	int first;
-	int pos;
+	int		end;
+	int		first;
+	int		pos;
 	t_pile	*current;
 
+	end = ft_lstlen(stacks->a_pile) > SUBLST_SIZE ? 0 : 1;
 //	printf("size : %d\n", SUBLST_SIZE);
 //	getchar();
-	end = ft_lstlen(stacks->a_pile) > SUBLST_SIZE ? 0 : 1;
-	//	printf("------ INIT ------\n");
+//	printf("------ INIT ------\n");
 	ft_lst_opposites(stacks->a_pile, &first, NULL);
 	pos = ft_lstgetpos(stacks->a_pile, first);
 	current = stacks->a_pile;
@@ -179,7 +169,7 @@ int			ft_quick_sort(t_stacks *stacks, char **operations, t_pile **sorted)
 	current->first = 1;
 	if (sort_sub_lst(stacks, operations, *sorted, 0))
 		return (1);
-	//	printf("------ INIT DONE ------\n");
+//	printf("------ INIT DONE ------\n");
 	while (!end)
 	{
 		while (stacks->b_pile)

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/14 11:56:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 12:24:03 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 16:04:31 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	display_value(int value, int max, int min)
 {
 	char	*str;
 
-	if (!(str = (char*)malloc(value - min + 2))) 
+	if (!(str = (char*)malloc(value - min + 2)))
 		return (1);
 	str = ft_memset(str, '|', value - min + 1);
 	str[value - min + 1] = 0;

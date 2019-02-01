@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 16:10:51 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 13:38:34 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ typedef struct	s_oper_fcts
 	void		(*f)(char*, t_pile**, t_pile**);
 }				t_oper_fcts;
 
-typedef struct	s_pool
+typedef struct	s_rules
 {
-	char		action;
-	void		(*f)(char*, char*);
-}				t_pool;
+	char		*action;
+	int			(*f)(char*, char*);
+}				t_rules;
 
 typedef struct	s_stacks
 {
@@ -46,6 +46,8 @@ typedef struct	s_stacks
 	t_oper_fcts *fcts_tab;
 	int			rr[2];
 	int			rrr[2];
+	t_rules		*rules_fcts;
+	t_list		*pool;
 }				t_stacks;
 
 t_pile          *ft_lstnew(int nb);
@@ -83,5 +85,10 @@ int				push_nbr(t_stacks *stacks, char **operations, int index, int nbr);
 char			*put_nbr_top(t_pile *pile, int index, int pos, t_stacks *stacks);
 t_pile			*pivot_choice(t_pile *pile, t_pile *sorted);
 char			*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index);
+int				r_rules(char *pool, char *action);
+int				rr_rules(char *pool, char *action);
+int				s_rules(char *pool, char *action);
+int				p_rules(char *pool, char *action);
+t_rules			*make_rules_struct(void);
 
 #endif

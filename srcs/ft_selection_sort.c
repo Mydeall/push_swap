@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:48:45 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 17:18:14 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 15:57:14 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ char	*put_nbr_top(t_pile *pile, int index, int pos, t_stacks *stacks)
 	char	*result;
 
 	len = ft_lstlen(pile);
-	side = pos - (stacks->rr)[index] <= len - pos - (stacks->rrr)[index] ? -1 : 1;
+	side = pos - (stacks->rr)[index] <= len - pos - (stacks->rrr)[index] ?\
+			-1 : 1;
 	action = side == -1 ? "rr\n" : "rrr\n";
 	if (!(result = ft_strnew(1)))
 		return (NULL);
@@ -115,12 +116,12 @@ char	*put_nbr_top(t_pile *pile, int index, int pos, t_stacks *stacks)
 		else if (side == 1 && (stacks->rrr)[index] == 0)
 			action = index ? "rrb\n" : "rra\n";
 		(stacks->rr)[index] = !ft_strcmp(action, "rr\n") ?\
-							  (stacks->rr)[index] - 1 : (stacks->rr)[index]; 
+						(stacks->rr)[index] - 1 : (stacks->rr)[index];
 		(stacks->rrr)[index] = !ft_strcmp(action, "rrr\n") ?\
-							   (stacks->rrr[index]) - 1 : (stacks->rrr)[index]; 
+						(stacks->rrr[index]) - 1 : (stacks->rrr)[index];
 		tmp = result;
 		if (!(result = ft_strjoin(result, action)))
-			return (NULL);;
+			return (NULL);
 		free(tmp);
 		pos += side;
 	}

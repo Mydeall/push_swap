@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:36:41 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 17:07:24 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 16:31:23 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@
 #include "push_swap.h"
 #include "libft.h"
 
-int	r_action(char *pool, char *action)
+int		r_rules(char *pool, char *action)
 {
 	int	index;
 
+	printf("\n------ R_RULE --------\n");
+	printf("action : %s | pool : %s\n", action, pool);
 	index = pool[1] == 'a' ? 0 : 1;
 	if ((ft_strstr("sb|rrb", action) && !index) ||\
 			(ft_strstr("sa|rra", action) && index))
@@ -38,10 +40,12 @@ int	r_action(char *pool, char *action)
 		return (3);
 }
 
-int	rr_action(char *pool, char *action)
+int		rr_rules(char *pool, char *action)
 {
 	int	index;
 
+	printf("\n------ RR_RULE --------\n");
+	printf("action : %s | pool : %s\n", action, pool);
 	index = pool[2] == 'a' ? 0 : 1;
 	if ((ft_strstr("sb|rb", action) && !index) ||\
 			(ft_strstr("sa|ra", action) && index))
@@ -56,10 +60,12 @@ int	rr_action(char *pool, char *action)
 		return (3);
 }
 
-int	s_action(char *pool, char *action)
+int		s_rules(char *pool, char *action)
 {
 	int	index;
 
+	printf("\n------ S_RULE --------\n");
+	printf("action : %s | pool : %s\n", action, pool);
 	index = pool[1] == 'a' ? 0 : 1;
 	if ((ft_strstr("rrb|rb", action) && !index) ||\
 			(ft_strstr("rra|ra", action) && index))
@@ -74,15 +80,17 @@ int	s_action(char *pool, char *action)
 		return (3);
 }
 
-int	p_action(char *pool, char *action)
+int		p_rules(char *pool, char *action)
 {
 	int	index;
 
+	printf("\n------ P_RULE --------\n");
+	printf("action : %s | pool : %s\n", action, pool);
 	index = pool[1] == 'a' ? 0 : 1;
-	if ((ft_strstr("sb|rrb|rb", action) && !index) ||\
-			(ft_strstr("sa|rra|ra", action) && index))
-		return (0);
-	else if ((!ft_strcmp("pb", action) && !index) ||\
+//	if ((ft_strstr("sb|rrb|rb", action) && !index) ||\
+//			(ft_strstr("sa|rra|ra", action) && index))
+//		return (0);
+	if ((!ft_strcmp("pb", action) && !index) ||\
 			(!ft_strcmp("pa", action) && index))
 		return (2);
 	else
@@ -93,15 +101,15 @@ t_rules	*make_rules_struct(void)
 {
 	t_rules *rules_fcts;
 
-	if (!(rules_fcts = (t_rules*)malloc(sizeof(t_rules) * 3)))
+	if (!(rules_fcts = (t_rules*)malloc(sizeof(t_rules) * 4)))
 		return (NULL);
 	rules_fcts[0].action = "sa|sb";
-	rules_fcts[0].f = &s_rule;
+	rules_fcts[0].f = &s_rules;
 	rules_fcts[1].action = "pa|pb";
 	rules_fcts[1].f = &p_rules;
 	rules_fcts[2].action = "ra|rb";
 	rules_fcts[2].f = &r_rules;
-	rules_fcts[2].action = "rra|rrb";
-	rules_fcts[2].f = &rr_rules;
+	rules_fcts[3].action = "rra|rrb";
+	rules_fcts[3].f = &rr_rules;
 	return (rules_fcts);
 }

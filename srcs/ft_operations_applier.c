@@ -6,20 +6,20 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:47:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 17:17:16 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 16:25:36 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-void	del_pool(t_pool **pool, int pos)
+static void	ft_lstdel_node(t_list **pool, int pos)
 {
-	t_pile *prev;
-	t_pile *current;
+	t_list	*prev;
+	t_list	*current;
 	int		i;
 
-	current = *lst;
+	current = *pool;
 	prev = NULL;
 	i = -1;
 	while (++i < pos)
@@ -31,63 +31,59 @@ void	del_pool(t_pool **pool, int pos)
 		prev->next = current->next;
 	else
 		*pool = current->next;
-	free(current->action);
+	free(current->content);
 	free(current);
 }
 
-static t_pool	*pool_new(char *action)
+//----------------------------------------------------------
+// listnew
+
+static char	*determine_action(int decision, char *action, t_list **pool, int pos)
 {
-	t_pile	*new;
-
-	if (!(new = (t_pile*)malloc(sizeof(t_pile) * 1)))
-		return (NULL);
-	new->action = ft_strdup(action);
-	new->next = NULL;
-	return (new);
-}
-
-static void	add_pool(t_pool **pool, t_pool *pool)
-{
-	t_pool	*tmp;
-
-	if (pool)
-	{
-		tmp = *pool;
-		new->next = tmp;
-		*pool = new;
-	}
-}
-
-static char	*determine_action(int decision, char *action, t_pool **pool, int pos)
-{
-	t_pool	*new;
+	t_list	*new;
 	char	*result;
 	int		i;
 
-	result = ft_strdup("");
+	printf("\n---------DETERMINE ACTION--------\n");
+	printf("decision : %d\n", decision);
 	if (!decision)
 	{
-		if (!(new = pool_new(ft_strdup(action))))
+		if (!(new = ft_listnew(action, ft_strlen(action) + 1)))
 			return (NULL);
-		add_pool(pool, new);
+		ft_listadd(pool, new);
+		if (!(result = ft_strdup("")))
+			return (NULL);
 	}
 	else if (decision == 1)
 	{
-		del_pool(pos);
-		result = ft_strdup(action);
+		ft_lstdel_node(pool, pos);
+		if (!(result = ft_strdup(action)))
+			return (NULL);
+		printf("result[ft_strlen(action) - 1] : %c\n", result[ft_strlen(action) - 1]);
 		result[ft_strlen(action) - 1] = action[0];
 	}
 	else if (decision == 2)
-		del_pool(pos);
-	else if (decision == 3)
 	{
+		ft_lstdel_node(pool, pos);
+		if (!(result = ft_strdup("")))
+			return (NULL);
+	}
+	else
+	{
+		printf("else\n");
 		new = *pool;
 		i = -1;
 		while (++i < pos)
 			new = new->next;
-		result = ft_strdup(new->action);
-		del_pool(pos);
+		if (!(result = ft_strdup(new->content)))
+			return (NULL);
+		ft_lstdel_node(pool, pos);
 	}
+	printf("pool : \n");
+	ft_putlst_str(*pool);
+	printf("action to exec : |%s|\n", result);
+	printf("------DETERMINE DONE----------\n");
+	getchar();
 	return (result);
 }
 
@@ -98,79 +94,97 @@ static char	*determine_action(int decision, char *action, t_pool **pool, int pos
 3 : exec (pool) 
 */
 
-static int	apply_decision(char *action, t_stacks stacks, char **operations)
+static int	apply_decision(char *action, t_stacks *stacks, char **operations)
 {
 	char	*tmp;
 
-	action_applier(result, stacks, 0);
+	printf("\n-------APPLY DECISION----------\n");
+	printf("action : |%s|\n", action);
+	action_applier(action, stacks, 0);
 	tmp = *operations;
-	if (!(*operations = ft_strjoinarg(3, *operations, result, "\n")))
+	if (!(*operations = ft_strjoinarg(3, *operations, action, "\n")))
 		return (1);
 	free(tmp);
-	free(action);
+	printf("-------- APPLY DECISION DONE ---------\n");
+	getchar();
 	return (0);
 }
 
-static int	evaluate_action(char *action, t_pool *pool,\
+static int	evaluate_action(char *action,\
 		t_stacks *stacks, char **operations)
 {
 	int					decision;
-	t_pool				*current;
-	static t_oper_fcts	*rules_fcts;
+	t_list				*current;
 	int					i;
 	int					j;
 	char 				*result;
 
-	current = pool;
+	current = stacks->pool;
 	decision = 0;
-	if (!rules_fcts)
-		rules_fcts = make_rules_struct();
 	i = 0;
-	while(current && (decision == 0 || decision == 3))
+	printf("\n-------EVALUATION-------\n");
+	printf("action : %s\n", action);
+	printf("pool : \n");
+	ft_putlst_str(stacks->pool);
+	while (current && (decision == 0 || decision == 3))
 	{
 		j = -1;
+		printf("pool : |%s|\n", current->content);
 		while (++j < 4)
-			if (ft_strstr(rules_fcts[j].action, action))
+		{
+			printf("fct compared : %s\n", ((stacks->rules_fcts)[j]).action);
+			if (ft_strstr(((stacks->rules_fcts)[j]).action, current->content))
 			{
-				decision = rules_fcts[j].f(action, current->action);
+				printf("fct matched : %s\n", stacks->rules_fcts[j].action);
+				decision = stacks->rules_fcts[j].f(current->content, action);
+				printf("RULED ! decision : %d\n", decision);
 				break ;
 			}
+		}
 		if (decision != 0)
 		{
-			if (!(result = determine_action(decision, action, &pool, i)))
+			if (!(result = determine_action(decision, action, &(stacks->pool), i)))
 				return (1);
-			if (!(apply_decision(result, stacks, operations)));
+			if (apply_decision(result, stacks, operations))
 				return (1);
+			free(result);
 		}
-		free(result);
 		i++;
 		current = current->next;
 	}
-	if (!current && !decision)
+	printf("\n\n\n\n\n\nEND evaluate boucle --> current : %p | decsion : %d\n", current, decision);
+	if (!current && (!decision || decision == 3))
 	{
-		if (!(determine_action(decision, action, &pool, 0)))
+		if (!(result = determine_action(0, action, &(stacks->pool), 0)))
 			return (1);
-		if (!(apply_decision(result, stacks, operations)));
+		if (!(apply_decision(result, stacks, operations)))
 			return (1);
 	}
+	free(result);
+	printf("pool : \n");
+	ft_putlst_str(stacks->pool);
+	printf("EVALUATION DONE\n");
+	getchar();
+	return (0);
 }
 
 int		append_actions(char *actions, t_stacks *stacks,\
 		char **operations)
 {
 	char	**tab_op;
-	static t_pool	*pool;
 	int		i;
 
-	//	printf("actions append : |%s|\n", actions);
-	//	ft_putlst(stacks->a_pile);
-	//	ft_putlst(stacks->b_pile);
-	//	getchar();
+	printf("\n---------APPEND_ACTION----------\n");
+	printf("actions append : |%s|\n", actions);
 	if (!(tab_op = ft_strsplit(actions, '\n')))
 		return (1);
 	i = -1;
 	while (tab_op[++i])
-		evaluate_action(tab_op[i], pool);
+		evaluate_action(tab_op[i], stacks, operations);
+	ft_putlst(stacks->a_pile);
+	ft_putlst(stacks->b_pile);
+	printf("----------------------------- APPEND_ACTION DONE -----------------\n");
+	getchar();
 	return (0);
 }
 

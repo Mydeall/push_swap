@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:51:35 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/30 18:07:32 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 15:51:53 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@ char	*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
 		if (!(action = index ? ft_strdup("rb") : ft_strdup("ra")))
 			return (NULL);
 	}
-	else
-		if (!(action = index ? ft_strdup("pa") : ft_strdup("pb")))
-			return (NULL);
+	else if (!(action = index ? ft_strdup("pa") : ft_strdup("pb")))
+		return (NULL);
 	return (action);
 }
 
@@ -76,7 +75,7 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 	t_pile	*pivot;
 	char	*action;
 	t_pile	*pile;
-	t_pile 	*first;
+	t_pile	*first;
 
 //	printf("--------- SUB_LIST_SORT -----------\n");
 	pile = index ? stacks->b_pile : stacks->a_pile;
@@ -92,20 +91,20 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 	//	ft_putlst(stacks->b_pile);
 		if (!(action = set_action(stacks, pivot, first, index)))
 			return (1);
-		//printf("action : |%s|\n", action);
+//		printf("action : |%s|\n", action);
 		if (append_actions(action, stacks, operations))
 			return (1);
 		free(action);
 		if (pile == first)
 			break ;
 		if (!first && ((ft_strstr(action, "ra") && !index) ||\
-				   	(ft_strstr(action, "rb") && index)))
+					(ft_strstr(action, "rb") && index)))
 			first = pile;
 		pile = index ? stacks->b_pile : stacks->a_pile;
-	//	ft_putlst(stacks->a_pile);
-	//	ft_putlst(stacks->b_pile);
-	//	printf("-------------\n");
-	//	getchar();
+//		ft_putlst(stacks->a_pile);
+//		ft_putlst(stacks->b_pile);
+//		printf("-------------\n");
+//		getchar();
 	}
 //	ft_putlst(stacks->a_pile);
 //	ft_putlst(stacks->b_pile);

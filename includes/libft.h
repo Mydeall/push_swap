@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/21 15:31:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/01 13:20:23 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct		s_list
+{
+	void			*content;
+	size_t			content_size;
+	struct s_list	*next;
+}					t_list;
 
 size_t				ft_strlen(const char *str);
 int					ft_strcmp(const char *s1, const char *s2);
@@ -80,5 +87,8 @@ void				ft_dputnbr(long double n, int precision);
 char			    *ft_dtoa(long double n, int precision);
 char				*ft_strjoinarg(int nb, ...);
 int					ft_abs(int x);
+t_list				*ft_listnew(void const *content, size_t content_size);
+void				ft_listadd(t_list **alst, t_list *new);
+void				ft_putlst_str(t_list *lst);
 
 #endif
