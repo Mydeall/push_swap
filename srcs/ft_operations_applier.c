@@ -6,86 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:47:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/01 16:25:36 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/04 19:28:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
-
-static void	ft_lstdel_node(t_list **pool, int pos)
-{
-	t_list	*prev;
-	t_list	*current;
-	int		i;
-
-	current = *pool;
-	prev = NULL;
-	i = -1;
-	while (++i < pos)
-	{
-		prev = current;
-		current = current->next;
-	}
-	if (prev)
-		prev->next = current->next;
-	else
-		*pool = current->next;
-	free(current->content);
-	free(current);
-}
-
-//----------------------------------------------------------
-// listnew
-
-static char	*determine_action(int decision, char *action, t_list **pool, int pos)
-{
-	t_list	*new;
-	char	*result;
-	int		i;
-
-	printf("\n---------DETERMINE ACTION--------\n");
-	printf("decision : %d\n", decision);
-	if (!decision)
-	{
-		if (!(new = ft_listnew(action, ft_strlen(action) + 1)))
-			return (NULL);
-		ft_listadd(pool, new);
-		if (!(result = ft_strdup("")))
-			return (NULL);
-	}
-	else if (decision == 1)
-	{
-		ft_lstdel_node(pool, pos);
-		if (!(result = ft_strdup(action)))
-			return (NULL);
-		printf("result[ft_strlen(action) - 1] : %c\n", result[ft_strlen(action) - 1]);
-		result[ft_strlen(action) - 1] = action[0];
-	}
-	else if (decision == 2)
-	{
-		ft_lstdel_node(pool, pos);
-		if (!(result = ft_strdup("")))
-			return (NULL);
-	}
-	else
-	{
-		printf("else\n");
-		new = *pool;
-		i = -1;
-		while (++i < pos)
-			new = new->next;
-		if (!(result = ft_strdup(new->content)))
-			return (NULL);
-		ft_lstdel_node(pool, pos);
-	}
-	printf("pool : \n");
-	ft_putlst_str(*pool);
-	printf("action to exec : |%s|\n", result);
-	printf("------DETERMINE DONE----------\n");
-	getchar();
-	return (result);
-}
 
 /* actions :
 0 : attendre (pool)
@@ -94,97 +20,86 @@ static char	*determine_action(int decision, char *action, t_list **pool, int pos
 3 : exec (pool) 
 */
 
-static int	apply_decision(char *action, t_stacks *stacks, char **operations)
+static int	take_decision(char *action, t_stacks *stacks, char **result, int *pos)
 {
-	char	*tmp;
-
-	printf("\n-------APPLY DECISION----------\n");
-	printf("action : |%s|\n", action);
-	action_applier(action, stacks, 0);
-	tmp = *operations;
-	if (!(*operations = ft_strjoinarg(3, *operations, action, "\n")))
-		return (1);
-	free(tmp);
-	printf("-------- APPLY DECISION DONE ---------\n");
-	getchar();
-	return (0);
-}
-
-static int	evaluate_action(char *action,\
-		t_stacks *stacks, char **operations)
-{
-	int					decision;
-	t_list				*current;
-	int					i;
-	int					j;
-	char 				*result;
+	t_pool	*current;
+	int		first;
+	int		j;
+	int		decision;
 
 	current = stacks->pool;
+	first = *pos ? 0 : 1;
+	*pos = 0;
 	decision = 0;
-	i = 0;
-	printf("\n-------EVALUATION-------\n");
-	printf("action : %s\n", action);
-	printf("pool : \n");
-	ft_putlst_str(stacks->pool);
-	while (current && (decision == 0 || decision == 3))
+	while (current && (!decision || (decision == 1 && first)))
 	{
 		j = -1;
-		printf("pool : |%s|\n", current->content);
-		while (++j < 4)
+		while (++j < 5)
 		{
-			printf("fct compared : %s\n", ((stacks->rules_fcts)[j]).action);
-			if (ft_strstr(((stacks->rules_fcts)[j]).action, current->content))
+			if (ft_strstr(((stacks->rules_fcts)[j]).action, current->action))
 			{
-				printf("fct matched : %s\n", stacks->rules_fcts[j].action);
-				decision = stacks->rules_fcts[j].f(current->content, action);
-				printf("RULED ! decision : %d\n", decision);
+				decision = stacks->rules_fcts[j].f(current->action, action, result);
 				break ;
 			}
 		}
-		if (decision != 0)
-		{
-			if (!(result = determine_action(decision, action, &(stacks->pool), i)))
-				return (1);
-			if (apply_decision(result, stacks, operations))
-				return (1);
-			free(result);
-		}
-		i++;
+		(*pos)++;
 		current = current->next;
 	}
-	printf("\n\n\n\n\n\nEND evaluate boucle --> current : %p | decsion : %d\n", current, decision);
-	if (!current && (!decision || decision == 3))
+	return (decision);
+}
+
+static int	manage_pool(char *action, t_stacks *stacks)
+{
+	int		decision;
+	int		i;
+	char	*result;
+	t_pool	*node;
+
+	result = NULL;
+//	printf("\n----------- MANAGE POOL -----------\n");
+//	printf("action : %s\n", action);
+	i = 0;
+	if ((decision = take_decision(action, stacks, &result, &i)) != 2)
 	{
-		if (!(result = determine_action(0, action, &(stacks->pool), 0)))
-			return (1);
-		if (!(apply_decision(result, stacks, operations)))
-			return (1);
+		i++;
+		decision = take_decision(action, stacks, &result, &i);
 	}
-	free(result);
-	printf("pool : \n");
-	ft_putlst_str(stacks->pool);
-	printf("EVALUATION DONE\n");
-	getchar();
+	if (decision == 1 || decision == 2)
+	{
+//		printf("decision : %d\n", decision);
+		ft_pooldel_node(&stacks->pool, i - 1);
+	}
+	if (decision != 2)
+	{
+		action = decision == 1 ? result : action;
+		if (!(node = ft_poolnew(action)))
+			return (1);
+		ft_pooladd(&(stacks->pool), node);
+	}
+//	if (decision == 1 || decision == 2)
+//		getchar();
+//	printf("pool : \n");
+//	ft_putpool(stacks->pool);
+//	printf("\n--------- MANAGE POOL DONE --------\n");
 	return (0);
 }
 
-int		append_actions(char *actions, t_stacks *stacks,\
-		char **operations)
+int		append_actions(char *actions, t_stacks *stacks)
 {
 	char	**tab_op;
 	int		i;
 
-	printf("\n---------APPEND_ACTION----------\n");
-	printf("actions append : |%s|\n", actions);
+//	printf("\n-------------------- APPEND_ACTION ---------------------\n");
 	if (!(tab_op = ft_strsplit(actions, '\n')))
 		return (1);
 	i = -1;
 	while (tab_op[++i])
-		evaluate_action(tab_op[i], stacks, operations);
-	ft_putlst(stacks->a_pile);
-	ft_putlst(stacks->b_pile);
-	printf("----------------------------- APPEND_ACTION DONE -----------------\n");
-	getchar();
+	{
+		manage_pool(tab_op[i], stacks);
+		if (action_applier(tab_op[i], stacks, 0))
+			return (1);
+	}
+//	printf("------------------ APPEND_ACTION DONE ------------------\n");
 	return (0);
 }
 

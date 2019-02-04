@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:51:35 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/01 15:51:53 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/04 16:10:42 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ char	*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
 	return (action);
 }
 
-int		sort_sub_lst(t_stacks *stacks, char **operations,\
-		t_pile *sorted, int index)
+int		sort_sub_lst(t_stacks *stacks, t_pile *sorted, int index)
 {
 	t_pile	*pivot;
 	char	*action;
@@ -80,7 +79,7 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 //	printf("--------- SUB_LIST_SORT -----------\n");
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	if (ft_lstlen(pile) < SUBLST_SIZE)
-		return (little_list_sort(stacks, operations, index));
+		return (selection_sort(stacks, index));
 	first = NULL;
 	pivot = pivot_choice(pile, sorted);
 	pivot->p = 1;
@@ -92,7 +91,7 @@ int		sort_sub_lst(t_stacks *stacks, char **operations,\
 		if (!(action = set_action(stacks, pivot, first, index)))
 			return (1);
 //		printf("action : |%s|\n", action);
-		if (append_actions(action, stacks, operations))
+		if (append_actions(action, stacks))
 			return (1);
 		free(action);
 		if (pile == first)

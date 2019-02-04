@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/01 15:24:26 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/04 19:46:21 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char *av[])
 		return (1);
 	}
 	sorted = ft_sort(make_pile(ac, av, 0));
-	if (ft_quick_sort(&stacks, &operations, &sorted))
+	if (ft_quick_sort(&stacks, &sorted, &operations))
 		return (1);
 	tmp = operations;
 	if (!(operations = ft_simplifier(ft_strsplit(operations, '\n'))))

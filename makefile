@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/01 13:19:27 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/04 16:33:37 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,6 @@ FLAGS = -Wall -Wextra -Werror
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
 INC_PATH = ./includes
-MAIN_PATH = ./..
 
 LIB_NAME = ft_strcpy.c\
 		   ft_strdel.c\
@@ -60,13 +59,15 @@ SRC_NAME_CHECK= ft_checker.c \
 				ft_visualizer.c \
 				lst_fcts.c \
 				ft_make_pile.c \
-				ft_operations_applier.c
+				ft_operations_applier.c \
+				ft_pool_actions.c 
 
 SRC_NAME_PUSH = ft_push_swap.c \
 				ft_oper_fcts.c \
 				ft_visualizer.c \
 				ft_quick_sort.c \
 				lst_fcts.c \
+				ft_pool_actions.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
 				ft_simplifier.c \
