@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/01 16:01:25 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/06 14:53:20 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ static int	verif_operations(char **operations)
 
 static int	verif_result(char **operations, int ac, char *av[], int visualize)
 {
-	t_stacks *stacks;
+	t_stacks 	*stacks;
+	int			i;
 
 	if (!(stacks = (t_stacks*)malloc(sizeof(t_stacks))) ||
 			!(stacks->fcts_tab = make_struct()))
 		return (1);
-	if (!(stacks->a_pile = make_pile(ac, av, visualize)) ||\
+	if (make_pile(&(stacks->a_pile), ac, av, visualize) ||\
 			verif_operations(operations))
 	{
 		write(1, "Error\n", 6);
@@ -66,12 +67,10 @@ static int	verif_result(char **operations, int ac, char *av[], int visualize)
 	if (visualize)
 		if (visualizer(stacks->a_pile, stacks->b_pile))
 			return (1);
-	while (*operations)
-	{
-		if (action_applier(*operations, stacks, visualize) == 1)
+	i = -1;
+	while (operations[++i])
+		if (action_applier(operations[i], stacks, visualize) == 1)
 			return (1);
-		operations++;
-	}
 	while (stacks->a_pile && stacks->a_pile->next &&\
 			stacks->a_pile->nb < stacks->a_pile->next->nb)
 		stacks->a_pile = stacks->a_pile->next;
@@ -79,6 +78,9 @@ static int	verif_result(char **operations, int ac, char *av[], int visualize)
 		write(1, "OK", 2);
 	else
 		write(1, "KO", 2);
+	ft_freetab(operations);
+	ft_free_stacks(stacks);
+	free(stacks);
 	return (0);
 }
 
@@ -108,6 +110,5 @@ int			main(int ac, char *av[])
 	if (!(operations = ft_strsplit(*operations, '\n')))
 		return (1);
 	ft_strdel(&tmp);
-	verif_result(operations, ac, av, visualize);
-	return (0);
+	return (verif_result(operations, ac, av, visualize));
 }

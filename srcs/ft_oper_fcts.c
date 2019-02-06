@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:55:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/31 14:56:14 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/06 11:50:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,22 @@
 
 void		swap(char *action, t_pile **a_pile, t_pile **b_pile)
 {
+	t_pile	*tmp;
+
 	if (action[1] != 'b')
-		ft_swap(&((*a_pile)->nb), &((*a_pile)->next)->nb);
+	{
+		tmp = (*a_pile)->next;
+		if ((*a_pile)->next)
+			(*a_pile)->next = (*a_pile)->next->next;
+		ft_lstadd(a_pile, tmp);
+	}
 	if (action[1] != 'a')
-		ft_swap(&((*b_pile)->nb), &((*b_pile)->next)->nb);
+	{
+		tmp = (*b_pile)->next;
+		if ((*b_pile)->next)
+			(*b_pile)->next = (*b_pile)->next->next;
+		ft_lstadd(b_pile, tmp);
+	}
 }
 
 void		push(char *action, t_pile **a_pile, t_pile **b_pile)
@@ -55,8 +67,7 @@ static void	rotation(t_pile **pile, int side)
 		current = *pile;
 		while (current->next->next)
 			current = current->next;
-		tmp = current->next;
-		ft_lstadd(pile, tmp);
+		ft_lstadd(pile, current->next);
 		current->next = NULL;
 	}
 }

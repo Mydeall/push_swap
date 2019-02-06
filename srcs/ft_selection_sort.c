@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/21 16:48:45 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/04 16:09:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/06 17:51:50 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 static int	apply_one_three_sort(t_stacks *stacks, char *actions, int index)
 {
 	t_pile	*current;
+	char	*action;
 
 	if (*actions && append_actions(actions, stacks))
 		return (1);
@@ -33,8 +34,9 @@ static int	apply_one_three_sort(t_stacks *stacks, char *actions, int index)
 	}
 	while (stacks->b_pile)
 	{
+		action = index ? "pa\nra" : "pa";
 		stacks->b_pile->p = 1;
-		if (append_actions("pa\nra", stacks))
+		if (append_actions(action, stacks))
 			return (1);
 	}
 	return (0);
@@ -45,7 +47,6 @@ static int	three_sort(t_stacks *stacks, int index)
 	char	*actions;
 	t_pile	*pile;
 
-//	printf("--------THREE SORT-------\n");
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	actions = "";
 	if (pile->nb > pile->next->nb && pile->nb > pile->next->next->nb)
@@ -67,10 +68,6 @@ static int	three_sort(t_stacks *stacks, int index)
 		else
 			actions = index ? "rrb" : "rra";
 	}
-//	ft_putlst(stacks->a_pile);
-//	ft_putlst(stacks->b_pile);
-//	printf("----THREE SORT DONE-----\n");
-//	getchar();
 	return (apply_one_three_sort(stacks, actions, index));
 }
 
@@ -82,15 +79,10 @@ static int	one_two_sort(t_stacks *stacks, int index)
 
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	len = ft_lstlen(pile);
-//	printf("----ONE TWO SORT-----\n");
 	action = "";
 	if (len == 2)
 		if (pile->nb > pile->next->nb)
 			action = index ? "rb" : "sa";
-//	ft_putlst(stacks->a_pile);
-//	ft_putlst(stacks->b_pile);
-//	printf("----ONE TWO SORT DONE-----\n");
-//	getchar();
 	return (apply_one_three_sort(stacks, action, index));
 }
 
@@ -135,19 +127,16 @@ int	selection_sort(t_stacks *stacks, int index)
 	int		pos;
 	char	*action;
 
-//	printf("-----LITTLE LIST------\n");
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	i = ft_lstlen(pile);
 	while (--i >= 3)
 	{
-//		printf("-----SELECTION SORT------\n");
 		pile = index ? stacks->b_pile : stacks->a_pile;
 		nbr = pile->nb;
 		ft_lst_opposites(pile, &nbr, NULL);
 		pos = ft_lstgetpos(pile, nbr);
 		if (!(action = put_nbr_top(pile, index, pos, stacks)))
 			return (1);
-//		printf("actions selction push top : |%s|", action);
 		if (append_actions(action, stacks))
 			return (1);
 		free(action);
@@ -162,11 +151,8 @@ int	selection_sort(t_stacks *stacks, int index)
 		action = index ? "pa" : "pb";
 		if (append_actions(action, stacks))
 			return (1);
-		(stacks->rr)[1] += 1;
-//		ft_putlst(stacks->a_pile);
-//		ft_putlst(stacks->b_pile);
-//		printf("----SELECTION SORT DONE-----\n");
-//		getchar();
+		if (index)
+			(stacks->rr)[1] += 1;
 	}
 	if (i == 2)
 		return (three_sort(stacks, index));

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 13:24:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/01/30 15:47:16 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/06 15:00:09 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,3 @@ t_pile			*ft_sort(t_pile *lst)
 	}
 	return (lst);
 }
-
-/*
-int	main(int ac, char *av[])
-{
-	t_pile *lst;
-
-	lst = make_pile(ac, av, 0);
-	lst = ft_sort(lst);
-	ft_putlst(lst);
-	while (lst && lst->next && lst->nb < lst->next->nb)
-		lst = lst->next;
-	if (!lst->next)
-		printf("NICKEL !\n");
-	else
-	{
-		printf("DOMMAGE\n");
-		printf("lst : %d\n", lst->nb);
-	}
-}
-*/

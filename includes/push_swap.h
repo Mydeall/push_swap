@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/04 19:45:33 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/06 14:51:06 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct	s_pool
 {
 	char		*action;
 	struct s_pool	*next;
+	struct s_pool	*prev;
 }				t_pool;
 
 typedef struct	s_stacks
@@ -70,11 +71,14 @@ void			 ft_delnode(t_pile **lst, int value);
 void			ft_pooladd(t_pool **alst, t_pool *new);
 t_pool			*ft_poolnew(char *action);
 void			ft_putpool(t_pool *lst);
+void			ft_freepool(t_pool *lst);
 t_pool			*ft_poolgetpos(t_pool *pool, int pos);
 void			ft_pooldel_node(t_pool **pool, int pos);
+void			ft_freetab(char **av);
+void			ft_free_stacks(t_stacks *stacks);
 
 t_pile			*ft_sort(t_pile *lst);
-t_pile			*make_pile(int ac, char *av[], int visualize);
+int				make_pile(t_pile **a_pile, int ac, char *av[], int visualize);
 void			swap(char *operation, t_pile **a_pile, t_pile **b_pile);
 void			push(char *operation, t_pile **a_pile, t_pile **b_pile);
 void			rotate(char *operation, t_pile **a_pile, t_pile **b_pile);

@@ -6,16 +6,9 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:36:41 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/04 18:57:38 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/05 17:04:42 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* actions :
-0 : attendre (pool)
-1 : merge (both)
-2 : cancel (both)
-3 : exec (pool) 
-*/
 
 #include "push_swap.h"
 #include "libft.h"

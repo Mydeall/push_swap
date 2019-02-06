@@ -6,14 +6,15 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/04 16:33:37 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/06 17:58:15 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
 NAME_CHECK = checker
 
-FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror
+FLAGS = 
 
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
@@ -70,7 +71,6 @@ SRC_NAME_PUSH = ft_push_swap.c \
 				ft_pool_actions.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
-				ft_simplifier.c \
 				ft_sublst_sort.c \
 				ft_selection_sort.c \
 				ft_normal_sorting.c \
