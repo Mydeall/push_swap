@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 14:51:06 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/08 16:56:47 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ int				ft_lstgetpos(t_pile *lst, int nb);
 void			ft_freelst(t_pile *lst);
 t_pile			*ft_lstcpy(t_pile *lst, int start, int end);
 void			 ft_delnode(t_pile **lst, int value);
-void			ft_pooladd(t_pool **alst, t_pool *new);
+int				ft_pooladd(t_pool **alst, t_pool *new);
 t_pool			*ft_poolnew(char *action);
 void			ft_putpool(t_pool *lst);
 void			ft_freepool(t_pool *lst);
 t_pool			*ft_poolgetpos(t_pool *pool, int pos);
 void			ft_pooldel_node(t_pool **pool, int pos);
-void			ft_freetab(char **av);
 void			ft_free_stacks(t_stacks *stacks);
 
 t_pile			*ft_sort(t_pile *lst);
+t_stacks		*init_stacks(t_stacks *stacks, int ac, char **av, int visualize);
 int				make_pile(t_pile **a_pile, int ac, char *av[], int visualize);
 void			swap(char *operation, t_pile **a_pile, t_pile **b_pile);
 void			push(char *operation, t_pile **a_pile, t_pile **b_pile);
@@ -85,6 +85,8 @@ void			rotate(char *operation, t_pile **a_pile, t_pile **b_pile);
 t_oper_fcts		*make_struct(void);
 int				visualizer(t_pile *a_pile, t_pile *b_pile);
 int				ft_quick_sort(t_stacks *stacks, t_pile **sorted, char **operations);
+int				sort_inf_subsize(t_stacks *stacks, t_pile *sublst, int sub_size);
+int				sort_sup_subsize(t_stacks *stacks, t_pile *pivot);
 int				append_actions(char *actions, t_stacks *stacks);
 int				action_applier(char *action, t_stacks *stacks,\
 		int visualize);

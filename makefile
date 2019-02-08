@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/06 17:58:15 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/08 16:55:04 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,8 @@ LIB_NAME = ft_strcpy.c\
 		   ft_listnew.c \
 		   ft_listadd.c \
 		   ft_memcpy.c \
-		   ft_putlst_str.c
+		   ft_putlst_str.c \
+		   ft_freetab.c
 
 SRC_NAME_CHECK= ft_checker.c \
 				ft_oper_fcts.c \
@@ -61,11 +62,14 @@ SRC_NAME_CHECK= ft_checker.c \
 				lst_fcts.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
+				ft_action_rules.c \
+				ft_action_rules_struct.c \
 				ft_pool_actions.c 
 
 SRC_NAME_PUSH = ft_push_swap.c \
 				ft_oper_fcts.c \
 				ft_visualizer.c \
+				ft_isolate_sublst.c \
 				ft_quick_sort.c \
 				lst_fcts.c \
 				ft_pool_actions.c \
@@ -74,7 +78,8 @@ SRC_NAME_PUSH = ft_push_swap.c \
 				ft_sublst_sort.c \
 				ft_selection_sort.c \
 				ft_normal_sorting.c \
-				ft_action_rules.c
+				ft_action_rules.c \
+				ft_action_rules_struct.c
 
 INC_NAME = push_swap.h \
 		   libft.h

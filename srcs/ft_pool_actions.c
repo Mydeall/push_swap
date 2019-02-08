@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:50:34 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 17:50:55 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/08 14:54:52 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,19 @@ t_pool	*ft_poolgetpos(t_pool *pool, int pos)
 	return (current);
 }
 
-void	ft_putpool(t_pool *lst)
-{
-	ft_putstr("{\n");
-	if (!(lst))
-		ft_putstr("(null)\n");
-	while (lst)
-	{
-		ft_putchar('|');
-		ft_putstr(lst->action);
-		ft_putchar('|');
-		ft_putchar('\n');
-		lst = lst->next;
-	}
-	ft_putstr("}\n");
-}
-
-void	ft_pooladd(t_pool **alst, t_pool *new)
+int		ft_pooladd(t_pool **alst, t_pool *new)
 {
 	t_pool	*lst;
 
-	if (alst)
-	{
-		lst = *alst;
-		new->next = lst;
-		if (lst)
-			lst->prev = new;
-		new->prev = NULL;
-		*alst = new;
-	}
+	if (!new || !alst)
+		return (1);
+	lst = *alst;
+	new->next = lst;
+	if (lst)
+		lst->prev = new;
+	new->prev = NULL;
+	*alst = new;
+	return (0);
 }
 
 t_pool	*ft_poolnew(char *action)
@@ -131,5 +115,3 @@ void	ft_freepool(t_pool *lst)
 		free(tmp);
 	}
 }
-
-

@@ -6,12 +6,33 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 15:17:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 18:20:58 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/08 14:38:14 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
+
+t_stacks	*init_stacks(t_stacks *stacks, int ac, char **av, int visualize)
+{
+	if (!(stacks = (t_stacks*)malloc(sizeof(t_stacks))))
+		return (NULL);
+	if (!(stacks->fcts_tab = make_struct()))
+		return (NULL);
+	stacks->b_pile = NULL;
+	stacks->a_pile = NULL;
+	stacks->pool = NULL;
+	stacks->rules_fcts = NULL;
+	stacks->rr[0] = 0;
+	stacks->rr[1] = 0;
+	stacks->rrr[0] = 0;
+	stacks->rrr[1] = 0;
+	if (make_pile(&(stacks->a_pile), ac, av, visualize))
+		return (NULL);
+	if (!(stacks->rules_fcts = make_rules_struct()))
+		return (NULL);
+	return (stacks);
+}
 
 void		ft_free_stacks(t_stacks *stacks)
 {
@@ -23,11 +44,12 @@ void		ft_free_stacks(t_stacks *stacks)
 		free(stacks->fcts_tab);
 	if (stacks->rules_fcts)
 		free(stacks->rules_fcts);
+	free(stacks);
 }
 
 static char	**split_string(int *ac, char *av[])
 {
-	char **tmp;
+	char	**tmp;
 
 	tmp = av;
 	if (!(av = ft_strsplit(av[0], ' ')))
@@ -36,20 +58,6 @@ static char	**split_string(int *ac, char *av[])
 	while (av[*ac])
 		(*ac)++;
 	return (av);
-}
-
-void		ft_freetab(char **av)
-{
-	int i;
-
-	if (av)
-	{
-		i = -1;
-		while (av[++i])
-			if (av[i])
-				free(av[i]);
-		free(av);
-	}
 }
 
 static int	append_args(int ac, char **av, t_pile **a_pile)
@@ -73,9 +81,8 @@ static int	append_args(int ac, char **av, t_pile **a_pile)
 				ft_atoi(av[i]) < -2147483648)
 			return (1);
 		nb = ft_atoi(av[i]);
-		if (ft_lstgetpos(*a_pile, nb) != -1)
-			return (1);
-		if (!(new = ft_lstnew(ft_atoi(av[i]))))
+		if (ft_lstgetpos(*a_pile, nb) != -1 ||\
+				!(new = ft_lstnew(ft_atoi(av[i]))))
 			return (1);
 		ft_lstaddend(a_pile, new);
 	}
@@ -101,9 +108,6 @@ int			make_pile(t_pile **a_pile, int ac, char *av[], int visualize)
 	if (malloc)
 		ft_freetab(av);
 	if (error)
-	{
-		ft_freelst(*a_pile);
 		return (1);
-	}
 	return (0);
 }

@@ -6,14 +6,15 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:47:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 17:51:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/08 14:55:26 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "libft.h"
 
-static int	take_decision(char *action, t_stacks *stacks, char **result, int *pos)
+static int	take_decision(char *action, t_stacks *stacks, char **result,\
+		int *pos)
 {
 	t_pool	*current;
 	int		first;
@@ -29,9 +30,10 @@ static int	take_decision(char *action, t_stacks *stacks, char **result, int *pos
 		j = -1;
 		while (++j < 5)
 		{
-			if (ft_strstr(((stacks->rules_fcts)[j]).action, current->action))
+			if (ft_strstr((stacks->rules_fcts[j]).action, current->action))
 			{
-				decision = stacks->rules_fcts[j].f(current->action, action, result);
+				decision = stacks->rules_fcts[j].f(current->action,\
+						action, result);
 				break ;
 			}
 		}
@@ -55,26 +57,21 @@ static int	manage_pool(char *action, t_stacks *stacks)
 		i++;
 		decision = take_decision(action, stacks, &result, &i);
 	}
-	if (decision == 2)
-	{
-		ft_pooldel_node(&stacks->pool, i - 1);
-	}
-	else if (decision == 1)
+	if (decision == 1)
 	{
 		node = ft_poolgetpos(stacks->pool, i - 1);
 		free(node->action);
 		node->action = ft_strdup(result);
 	}
 	else if (decision != 2)
-	{
-		if (!(node = ft_poolnew(action)))
+		if (ft_pooladd(&(stacks->pool), ft_poolnew(action)))
 			return (1);
-		ft_pooladd(&(stacks->pool), node);
-	}
+	if (decision == 2)
+		ft_pooldel_node(&stacks->pool, i - 1);
 	return (0);
 }
 
-int		append_actions(char *actions, t_stacks *stacks)
+int			append_actions(char *actions, t_stacks *stacks)
 {
 	char	**tab_op;
 	int		i;
@@ -93,7 +90,7 @@ int		append_actions(char *actions, t_stacks *stacks)
 	return (0);
 }
 
-int		action_applier(char *action, t_stacks *stacks,\
+int			action_applier(char *action, t_stacks *stacks,\
 		int visualize)
 {
 	int	i;
@@ -103,11 +100,12 @@ int		action_applier(char *action, t_stacks *stacks,\
 	{
 		if ((stacks->fcts_tab)[i].action == action[0])
 		{
-			((stacks->fcts_tab)[i]).f(action, &(stacks->a_pile), &(stacks->b_pile));
+			((stacks->fcts_tab)[i]).f(action, &(stacks->a_pile),\
+				&(stacks->b_pile));
 			break ;
 		}
 	}
-	if (visualize && visualizer(stacks->a_pile,	stacks->b_pile))
+	if (visualize && visualizer(stacks->a_pile, stacks->b_pile))
 		return (1);
 	return (0);
 }

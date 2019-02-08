@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:51:35 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 15:07:25 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/08 17:42:01 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ t_pile	*pivot_choice(t_pile *pile, t_pile *sorted)
 	return (current);
 }
 
-static int	verif_remaining(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
+static int	verif_remaining(t_stacks *stacks, t_pile *pivot,\
+		t_pile *first, int index)
 {
 	t_pile	*pile;
 
@@ -55,24 +56,32 @@ static int	verif_remaining(t_stacks *stacks, t_pile *pivot, t_pile *first, int i
 	return (0);
 }
 
+static char	*set_action_first(t_stacks *stacks, t_pile *pivot, int index)
+{
+	int		pos;
+	char	*tmp;
+	t_pile	*pile;
+	char	*action;
+
+	pile = index ? stacks->b_pile : stacks->a_pile;
+	pos = ft_lstgetpos(pile, pivot->nb);
+	if (!(action = put_nbr_top(pile, index, pos, stacks)))
+		return (NULL);
+	tmp = action;
+	if (!(action = index ? ft_strjoin(action, "pa") : ft_strdup(action)))
+		return (NULL);
+	free(tmp);
+	return (action);
+}
+
 char	*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
 {
 	char	*action;
-	int		pos;
-	char	*tmp;
 	t_pile	*pile;
 
 	pile = index ? stacks->b_pile : stacks->a_pile;
 	if (pile == first)
-	{
-		pos = ft_lstgetpos(pile, pivot->nb);
-		if (!(action = put_nbr_top(pile, index, pos, stacks)))
-			return (NULL);
-		tmp = action;
-		if (!(action = index ? ft_strjoin(action, "pa") : ft_strdup(action)))
-			return (NULL);
-		free(tmp);
-	}
+		return (set_action_first(stacks, pivot, index));
 	else if (((pile->nb <= pivot->nb && index) ||\
 				(pile->nb >= pivot->nb && !index)) && pile->next)
 	{
@@ -83,6 +92,23 @@ char	*set_action(t_stacks *stacks, t_pile *pivot, t_pile *first, int index)
 	}
 	else if (!(action = index ? ft_strdup("pa") : ft_strdup("pb")))
 		return (NULL);
+	return (action);
+}
+
+char	*apply_boucle_action(t_stacks *stacks, t_pile *pivot, t_pile **first, int index)
+{
+	char	*action;
+	t_pile	*pile;
+
+	pile = index ? stacks->b_pile : stacks->a_pile;
+	if (!(action = set_action(stacks, pivot, *first, index)))
+		return (NULL);
+	if (ft_strcmp(action, "except"))
+		if (append_actions(action, stacks))
+			return (NULL);
+	if (!(*first) && ((ft_strstr(action, "ra") && !index) ||\
+				(ft_strstr(action, "rb") && index)))
+		*first = pile;
 	return (action);
 }
 
@@ -101,24 +127,16 @@ int		sort_sub_lst(t_stacks *stacks, t_pile *sorted, int index)
 	pivot->p = 1;
 	while (pile)
 	{
-		if (!(action = set_action(stacks, pivot, first, index)))
+		if (!(action = apply_boucle_action(stacks, pivot, &first, index)))
 			return (1);
-		if (!ft_strcmp(action, "except"))
+		if (!ft_strcmp(action, "except") || pile == first)
 		{
 			free(action);
+			if (pile == first)
+				break ;
 			first = pile;
 			continue ;
 		}
-		if (append_actions(action, stacks))
-			return (1);
-		if (pile == first)
-		{
-			free(action);
-			break ;
-		}
-		if (!first && ((ft_strstr(action, "ra") && !index) ||\
-					(ft_strstr(action, "rb") && index)))
-			first = pile;
 		free(action);
 		pile = index ? stacks->b_pile : stacks->a_pile;
 	}
