@@ -6,12 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 15:17:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 14:38:14 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:20:45 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
+#include <stdio.h>
 
 t_stacks	*init_stacks(t_stacks *stacks, int ac, char **av, int visualize)
 {
@@ -37,7 +37,11 @@ t_stacks	*init_stacks(t_stacks *stacks, int ac, char **av, int visualize)
 void		ft_free_stacks(t_stacks *stacks)
 {
 	if (stacks->a_pile)
+	{
+		printf("free\n");
 		ft_freelst(stacks->a_pile);
+		printf("%p", stacks->a_pile);
+	}
 	if (stacks->b_pile)
 		ft_freelst(stacks->b_pile);
 	if (stacks->fcts_tab)

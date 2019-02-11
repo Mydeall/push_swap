@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:47:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 14:55:26 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:07:35 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static int	take_decision(char *action, t_stacks *stacks, char **result,\
 		int *pos)

@@ -6,17 +6,19 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:55:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 11:50:24 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:07:40 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 void		swap(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	t_pile	*tmp;
 
+	if ((action[1] != 'b' && (!(*a_pile) || !(*a_pile)->next)) ||\
+			(action[1] != 'a' && (!(*b_pile) || !(*b_pile)->next)))
+		return ;
 	if (action[1] != 'b')
 	{
 		tmp = (*a_pile)->next;
@@ -37,6 +39,9 @@ void		push(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	t_pile	*tmp;
 
+	if ((action[1] == 'b' && !(*a_pile)) ||\
+			(action[1] == 'a' && !(*b_pile)))
+		return ;
 	if (action[1] == 'a' && *b_pile)
 	{
 		tmp = *b_pile;
@@ -76,6 +81,9 @@ void		rotate(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	int side;
 
+	if ((action[1] != 'b' && (!(*a_pile) || !(*a_pile)->next)) ||\
+			(action[1] != 'a' && (!(*b_pile) || !(*b_pile)->next)))
+		return ;
 	side = ft_strlen(action) == 2 ? 1 : -1;
 	action = ft_strlen(action) == 2 ? action + 1 : action + 2;
 	if (*action != 'b' && ft_lstlen(*a_pile) > 1)

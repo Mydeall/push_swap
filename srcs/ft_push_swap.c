@@ -6,12 +6,12 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:38 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 14:37:40 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:18:22 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
+#include <stdio.h>
 
 int	main(int ac, char *av[])
 {
@@ -19,6 +19,7 @@ int	main(int ac, char *av[])
 	char		*operations;
 	t_pile		*sorted;
 
+	stacks = NULL;
 	if (!(stacks = init_stacks(stacks, ac, av, 0)) ||\
 			make_pile(&sorted, ac, av, 0))
 	{

@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 14:01:30 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:13:24 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static int	verif_operations(char **operations)
 {
@@ -46,6 +45,8 @@ static void	verif_result(t_stacks *stacks)
 		stacks->a_pile = stacks->a_pile->next;
 	if (stacks->a_pile && !(stacks->a_pile->next) && !(stacks->b_pile))
 		write(1, "OK\n", 3);
+	else if (!stacks->a_pile && !stacks->b_pile)
+		write(1, "OK\n", 3);
 	else
 		write(1, "KO\n", 3);
 }
@@ -56,6 +57,7 @@ static int	apply_operations(char **operations, int ac,\
 	t_stacks	*stacks;
 	int			i;
 
+	stacks = NULL;
 	if (!(stacks = init_stacks(stacks, ac, av, visualize)) ||\
 			verif_operations(operations))
 	{
@@ -63,7 +65,7 @@ static int	apply_operations(char **operations, int ac,\
 		write(2, "Error\n", 6);
 		return (1);
 	}
-	if (visualize)
+	if (visualize && stacks->a_pile)
 		if (visualizer(stacks->a_pile, stacks->b_pile))
 			return (1);
 	i = -1;

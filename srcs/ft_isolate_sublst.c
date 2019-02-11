@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 16:54:12 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 16:59:04 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:07:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static int	split_sublst(t_stacks *stacks, t_pile *pivot)
 {

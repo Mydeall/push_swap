@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 13:24:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/06 15:00:09 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:07:28 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static t_pile	*ft_getnode(t_pile *lst, int pos)
 {

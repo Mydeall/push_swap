@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:36:41 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 12:54:20 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:06:34 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 int		r_rules(char *pool, char *action, char **result)
 {

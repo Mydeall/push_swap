@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:50:34 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 14:54:52 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:07:49 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 t_pool	*ft_poolgetpos(t_pool *pool, int pos)
 {
@@ -101,17 +100,4 @@ char	*ft_pooljoin(t_pool *pool)
 		current = current->prev;
 	}
 	return (result);
-}
-
-void	ft_freepool(t_pool *lst)
-{
-	t_pool	*tmp;
-
-	while (lst)
-	{
-		tmp = lst;
-		free(lst->action);
-		lst = lst->next;
-		free(tmp);
-	}
 }

@@ -6,15 +6,14 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/08 16:55:04 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/11 18:11:21 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = push_swap
 NAME_CHECK = checker
 
-# FLAGS = -Wall -Wextra -Werror
-FLAGS = 
+FLAGS = -Wall -Wextra -Werror
 
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
@@ -50,36 +49,38 @@ LIB_NAME = ft_strcpy.c\
 		   ft_strjointab.c \
 		   ft_abs.c \
 		   ft_strstr.c \
-		   ft_listnew.c \
-		   ft_listadd.c \
 		   ft_memcpy.c \
 		   ft_putlst_str.c \
 		   ft_freetab.c
 
-SRC_NAME_CHECK= ft_checker.c \
-				ft_oper_fcts.c \
+SRC_NAME_CHECK = ft_checker.c \
+				ft_operations_fcts.c \
 				ft_visualizer.c \
-				lst_fcts.c \
+				ft_pile_basic_fcts.c \
+				ft_lst_memory_fcts.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
 				ft_action_rules.c \
 				ft_action_rules_struct.c \
-				ft_pool_actions.c 
+				ft_pool_fcts.c \
+				ft_nbr_manipulation.c
 
 SRC_NAME_PUSH = ft_push_swap.c \
-				ft_oper_fcts.c \
-				ft_visualizer.c \
+				ft_operations_fcts.c \
 				ft_isolate_sublst.c \
 				ft_quick_sort.c \
-				lst_fcts.c \
-				ft_pool_actions.c \
+				ft_visualizer.c \
+				ft_pile_basic_fcts.c \
+				ft_lst_memory_fcts.c \
+				ft_pool_fcts.c \
 				ft_make_pile.c \
 				ft_operations_applier.c \
 				ft_sublst_sort.c \
 				ft_selection_sort.c \
 				ft_normal_sorting.c \
 				ft_action_rules.c \
-				ft_action_rules_struct.c
+				ft_action_rules_struct.c \
+				ft_nbr_manipulation.c
 
 INC_NAME = push_swap.h \
 		   libft.h
@@ -101,8 +102,8 @@ all : $(NAME)
 .PHONY : clean fclean re
 
 $(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
-	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) -I $(INC_PATH)
-	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)
+	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) $(LIB_PATH)/libftprintf.a -I $(INC_PATH)
+	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(LIB_PATH)/libftprintf.a -I $(INC_PATH)
 
 clean :
 	rm -f $(OBJ_SRC_PUSH)
@@ -116,5 +117,5 @@ fclean : clean
 re : fclean all
 
 san : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
-	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) -I $(INC_PATH)
-	gcc -g3 -fsanitize=address -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) libft/libftprintf.a -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) libft/libftprintf.a -I $(INC_PATH)

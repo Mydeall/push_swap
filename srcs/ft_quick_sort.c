@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 13:52:39 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 16:57:44 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 18:15:32 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "libft.h"
 
 static int	save_pivot(t_stacks *stacks)
 {
@@ -55,7 +54,7 @@ static int	isolate_sub_lst(t_stacks *stacks, t_pile *sorted)
 		return (1);
 	if (!(sub_size = compute_nb_pivot(stacks)))
 		return (0);
-	if (!(sublst = ft_lstcpy(stacks->a_pile, 0, sub_size - 1)))
+	if (!(sublst = ft_lstcpy(stacks->a_pile, sub_size - 1)))
 		return (1);
 	if (sub_size <= SUBLST_SIZE)
 		return (sort_inf_subsize(stacks, sublst, sub_size));
@@ -98,6 +97,7 @@ int			ft_quick_sort(t_stacks *stacks, t_pile **sorted, char **operations)
 	int		end;
 	int		first;
 
+	first = 0;
 	if (set_parameters(stacks, &first, &end, sorted))
 		return (1);
 	while (!end)

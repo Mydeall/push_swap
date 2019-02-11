@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/08 13:19:57 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/11 17:55:42 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ int					ft_pow(int nb, int pow);
 char				*ft_itoa_base(unsigned long long int nb, const char *base);
 char				*ft_itoa_base_signed(long long int nb, const char *base);
 void				ft_dputnbr(long double n, int precision);
-char			    *ft_dtoa(long double n, int precision);
+char				*ft_dtoa(long double n, int precision);
 char				*ft_strjoinarg(int nb, ...);
 int					ft_abs(int x);
 t_list				*ft_listnew(void const *content, size_t content_size);
 void				ft_listadd(t_list **alst, t_list *new);
 void				ft_putlst_str(t_list *lst);
 void				ft_freetab(char **av);
+int					ft_printf(const char *restrict format, ...);
 
 #endif
