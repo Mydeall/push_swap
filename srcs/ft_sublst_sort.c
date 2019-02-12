@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 14:51:35 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:12:59 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/12 14:01:30 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,14 @@ static int	sort_lst(t_stacks *stacks, t_pile *pivot,\
 		if (ft_strcmp(action, "except"))
 			if (append_actions(action, stacks))
 				return (1);
-		if (!ft_strcmp(action, "except") || pile == first)
+		if (pile == first)
 		{
 			free(action);
-			if (pile == first)
-				break ;
-			first = pile;
-			continue ;
+			break ;
 		}
-		if (!first && ((ft_strstr(action, "ra") && !index) ||\
-					(ft_strstr(action, "rb") && index)))
+		if (!ft_strcmp(action, "except") ||\
+				(!first && ((ft_strstr(action, "ra") && !index) ||\
+				(ft_strstr(action, "rb") && index))))
 			first = pile;
 		free(action);
 	}

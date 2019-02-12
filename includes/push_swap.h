@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:06:22 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/12 12:55:27 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				ft_pooldel_node(t_pool **pool, int pos);
 void				ft_free_stacks(t_stacks *stacks);
 
 t_pile				*ft_sort(t_pile *lst);
-t_stacks			*init_stacks(t_stacks *stacks, int ac, char **av,\
+int					init_stacks(t_stacks **stacks, int ac, char **av,\
 		int visualize);
 int					make_pile(t_pile **a_pile, int ac, char *av[],\
 		int visualize);

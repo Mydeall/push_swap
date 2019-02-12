@@ -6,12 +6,11 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 15:26:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:26:12 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/12 13:02:28 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
 t_pile	*ft_nodecpy(t_pile *lst)
 {
@@ -57,15 +56,12 @@ void	ft_freelst(t_pile *lst)
 {
 	t_pile	*tmp;
 
-	printf("%p\n", lst);
 	while (lst)
 	{
-		printf("ok\n");
 		tmp = lst->next;
 		free(lst);
 		lst = tmp;
 	}
-	printf("%p\n", lst);
 }
 
 void	ft_delnode(t_pile **lst, int value)

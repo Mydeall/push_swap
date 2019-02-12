@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:13:24 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/12 12:55:55 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	apply_operations(char **operations, int ac,\
 	int			i;
 
 	stacks = NULL;
-	if (!(stacks = init_stacks(stacks, ac, av, visualize)) ||\
+	if (init_stacks(&stacks, ac, av, visualize) ||\
 			verif_operations(operations))
 	{
 		ft_free_stacks(stacks);

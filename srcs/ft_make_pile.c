@@ -6,42 +6,38 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 15:17:24 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:20:45 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/12 13:12:04 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <stdio.h>
 
-t_stacks	*init_stacks(t_stacks *stacks, int ac, char **av, int visualize)
+int			init_stacks(t_stacks **stacks, int ac, char **av, int visualize)
 {
-	if (!(stacks = (t_stacks*)malloc(sizeof(t_stacks))))
-		return (NULL);
-	if (!(stacks->fcts_tab = make_struct()))
-		return (NULL);
-	stacks->b_pile = NULL;
-	stacks->a_pile = NULL;
-	stacks->pool = NULL;
-	stacks->rules_fcts = NULL;
-	stacks->rr[0] = 0;
-	stacks->rr[1] = 0;
-	stacks->rrr[0] = 0;
-	stacks->rrr[1] = 0;
-	if (make_pile(&(stacks->a_pile), ac, av, visualize))
-		return (NULL);
-	if (!(stacks->rules_fcts = make_rules_struct()))
-		return (NULL);
-	return (stacks);
+	if (!(*stacks = (t_stacks*)malloc(sizeof(t_stacks))))
+		return (1);
+	(*stacks)->b_pile = NULL;
+	(*stacks)->a_pile = NULL;
+	(*stacks)->pool = NULL;
+	(*stacks)->rules_fcts = NULL;
+	(*stacks)->fcts_tab = NULL;
+	(*stacks)->rr[0] = 0;
+	(*stacks)->rr[1] = 0;
+	(*stacks)->rrr[0] = 0;
+	(*stacks)->rrr[1] = 0;
+	if (!((*stacks)->fcts_tab = make_struct()))
+		return (1);
+	if (make_pile(&((*stacks)->a_pile), ac, av, visualize))
+		return (1);
+	if (!((*stacks)->rules_fcts = make_rules_struct()))
+		return (1);
+	return (0);
 }
 
 void		ft_free_stacks(t_stacks *stacks)
 {
 	if (stacks->a_pile)
-	{
-		printf("free\n");
 		ft_freelst(stacks->a_pile);
-		printf("%p", stacks->a_pile);
-	}
 	if (stacks->b_pile)
 		ft_freelst(stacks->b_pile);
 	if (stacks->fcts_tab)

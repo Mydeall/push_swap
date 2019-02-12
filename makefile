@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/11 18:11:21 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/12 15:50:36 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,40 +18,6 @@ FLAGS = -Wall -Wextra -Werror
 LIB_PATH = ./libft
 SRC_PATH = ./srcs
 INC_PATH = ./includes
-
-LIB_NAME = ft_strcpy.c\
-		   ft_strdel.c\
-		   ft_atoi.c\
-		   ft_strdup.c\
-		   ft_strsub.c\
-		   ft_strcat.c\
-		   ft_strchr.c\
-		   ft_strjoin.c\
-		   ft_strjoinarg.c\
-		   ft_strnew.c\
-		   ft_strcmp.c\
-		   ft_strlen.c\
-		   ft_bzero.c\
-		   ft_memalloc.c\
-		   ft_memset.c\
-		   ft_itoa_base.c\
-		   ft_pow.c \
-		   ft_strsplit.c \
-		   ft_swap.c \
-		   ft_isdigit.c \
-		   ft_putstrtab.c \
-		   ft_putstr.c \
-		   ft_putchar.c \
-		   ft_putendl.c \
-		   ft_putinttab.c \
-		   ft_putnbr.c \
-		   ft_itoa.c \
-		   ft_strjointab.c \
-		   ft_abs.c \
-		   ft_strstr.c \
-		   ft_memcpy.c \
-		   ft_putlst_str.c \
-		   ft_freetab.c
 
 SRC_NAME_CHECK = ft_checker.c \
 				ft_operations_fcts.c \
@@ -83,32 +49,33 @@ SRC_NAME_PUSH = ft_push_swap.c \
 				ft_nbr_manipulation.c
 
 INC_NAME = push_swap.h \
-		   libft.h
+		   libft.h \
+		   ft_printf.h
 
 SRC_PUSH = $(addprefix $(SRC_PATH)/, $(SRC_NAME_PUSH))
 SRC_CHECK = $(addprefix $(SRC_PATH)/, $(SRC_NAME_CHECK))
-LIB = $(addprefix $(LIB_PATH)/, $(LIB_NAME))
 INC = $(addprefix $(INC_PATH)/, $(INC_NAME))
 
 OBJ_SRC_PUSH= $(SRC_PUSH:.c=.o)
 OBJ_SRC_CHECK= $(SRC_CHECK:.c=.o)
-OBJ_LIB= $(LIB:.c=.o)
 
 all : $(NAME)
 
 %.o : %.c
 	gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH) 
 
-.PHONY : clean fclean re
+.PHONY : libft clean fclean re
 
-$(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
-	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) $(LIB_PATH)/libftprintf.a -I $(INC_PATH)
-	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(LIB_PATH)/libftprintf.a -I $(INC_PATH)
+$(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(INC) 
+	cd $(LIB_PATH) ; $(MAKE) -f Makefile
+	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(LIB_PATH)/libft.a -I $(INC_PATH)
 
 clean :
 	rm -f $(OBJ_SRC_PUSH)
 	rm -f $(OBJ_SRC_CHECK)
 	rm -f $(OBJ_LIB)
+	cd $(LIB_PATH) ; $(MAKE) fclean 
 
 fclean : clean
 	rm -f $(NAME)
@@ -117,5 +84,6 @@ fclean : clean
 re : fclean all
 
 san : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(OBJ_LIB) $(INC)
-	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC_PUSH) $(OBJ_LIB) libft/libftprintf.a -I $(INC_PATH)
-	gcc -g3 -fsanitize=address -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(OBJ_LIB) libft/libftprintf.a -I $(INC_PATH)
+	cd $(LIB_PATH) ; $(MAKE) -f Makefile
+	gcc -g3 -fsanitize=address -o $(NAME) $(OBJ_SRC_PUSH) $(LIB_PATH)/libft.a -I $(INC_PATH)
+	gcc -g3 -fsanitize=address -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(LIB_PATH)/libft.a -I $(INC_PATH)
