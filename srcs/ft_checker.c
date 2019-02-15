@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/12 12:55:55 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/15 12:42:52 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ static int	apply_operations(char **operations, int ac,\
 			return (1);
 	i = -1;
 	while (operations[++i])
+	{
 		if (action_applier(operations[i], stacks, visualize) == 1)
 			return (1);
+	}
 	verif_result(stacks);
 	ft_freetab(operations);
 	ft_free_stacks(stacks);

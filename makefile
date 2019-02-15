@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/12 15:50:36 by ccepre           ###   ########.fr        #
+#    Updated: 2019/02/15 12:21:37 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,17 +59,19 @@ INC = $(addprefix $(INC_PATH)/, $(INC_NAME))
 OBJ_SRC_PUSH= $(SRC_PUSH:.c=.o)
 OBJ_SRC_CHECK= $(SRC_CHECK:.c=.o)
 
-all : $(NAME)
+all : libft $(NAME)
 
 %.o : %.c
 	gcc $(FLAGS) -c $< -o $@ -I $(INC_PATH) 
 
 .PHONY : libft clean fclean re
 
-$(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(INC) 
-	cd $(LIB_PATH) ; $(MAKE) -f Makefile
+$(NAME) : $(OBJ_SRC_PUSH) $(OBJ_SRC_CHECK) $(INC) $(LIB_PATH)/libft.a
 	gcc -o $(NAME) $(OBJ_SRC_PUSH) $(LIB_PATH)/libft.a -I $(INC_PATH)
 	gcc -o $(NAME_CHECK) $(OBJ_SRC_CHECK) $(LIB_PATH)/libft.a -I $(INC_PATH)
+
+libft :
+	@cd $(LIB_PATH) ; $(MAKE) -f Makefile
 
 clean :
 	rm -f $(OBJ_SRC_PUSH)

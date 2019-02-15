@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:55:27 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:07:40 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/15 12:58:31 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,14 @@ static void	rotation(t_pile **pile, int side)
 void		rotate(char *action, t_pile **a_pile, t_pile **b_pile)
 {
 	int side;
+	int	len;
 
-	if ((action[1] != 'b' && (!(*a_pile) || !(*a_pile)->next)) ||\
-			(action[1] != 'a' && (!(*b_pile) || !(*b_pile)->next)))
+	len = ft_strlen(action);
+	if ((action[len - 1] != 'b' && (!(*a_pile) || !(*a_pile)->next)) ||\
+			(action[len - 1] != 'a' && (!(*b_pile) || !(*b_pile)->next)))
 		return ;
-	side = ft_strlen(action) == 2 ? 1 : -1;
-	action = ft_strlen(action) == 2 ? action + 1 : action + 2;
+	side = len == 2 ? 1 : -1;
+	action = len == 2 ? action + 1 : action + 2;
 	if (*action != 'b' && ft_lstlen(*a_pile) > 1)
 		rotation(a_pile, side);
 	if (*action != 'a' && ft_lstlen(*b_pile) > 1)
