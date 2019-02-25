@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 13:52:39 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:15:32 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/25 10:46:33 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ static int	set_parameters(t_stacks *stacks, int *first,\
 	int		pos;
 	t_pile	*current;
 
-	*end = ft_lstlen(stacks->a_pile) > SUBLST_SIZE ? 0 : 1;
+	*end = ft_lstlen(stacks->a_pile) > (SUBLST_SIZE - 1) ? 0 : 1;
 	ft_lst_opposites(stacks->a_pile, first, NULL);
-	pos = ft_lstgetpos(stacks->a_pile, *first);
+	if ((pos = ft_lstgetpos(stacks->a_pile, *first)) == -1)
+		return (1);
 	current = stacks->a_pile;
 	while (pos-- > 0)
 		current = current->next;
@@ -97,7 +98,7 @@ int			ft_quick_sort(t_stacks *stacks, t_pile **sorted, char **operations)
 	int		end;
 	int		first;
 
-	first = 0;
+	first = stacks->a_pile->nb;
 	if (set_parameters(stacks, &first, &end, sorted))
 		return (1);
 	while (!end)

@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 12:12:43 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/12 12:55:27 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/25 11:32:28 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_pile				*ft_lstnew(int nb);
 void				ft_lstadd(t_pile **alst, t_pile *new);
 void				ft_lstaddend(t_pile **lst, t_pile *new);
 size_t				ft_lstlen(t_pile *lst);
-void				ft_putlst(t_pile *lst);
+void				ft_putpile(t_pile *lst);
 void				ft_swap(int *a, int *b);
 t_pile				*ft_lstgetlast(t_pile *lst);
 int					ft_lstgetpos(t_pile *lst, int nb);

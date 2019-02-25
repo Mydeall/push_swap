@@ -22,7 +22,7 @@ def test_n_time_x_elem(nbr, x):
     result = []
     i = 0
     while i < nbr:
-        output = subprocess.check_output(['ruby', '-e', "puts (0.." + str(x - 1) + ").to_a.shuffle.join(' ')"])
+        output = subprocess.check_output(['ruby', '-e', "puts (1.." + str(x) + ").to_a.shuffle.join(' ')"])
         lst = re.findall("\d+", str(output))
         output = subprocess.check_output([os.path.realpath("push_swap")] + lst)
         answer = os.popen("./push_swap " + " ".join(lst) + "| ./checker " + " ".join(lst)).readlines()
@@ -44,7 +44,7 @@ def test_n_time_x_elem(nbr, x):
     print(result)
     print("minimum d'operations: " + str(min_op))
     print("maximum d'operations: " + str(max_op))
-    print("moyenne d'operations: " + str(moy_op / len(result)))
+    print("moyenne d'operations: " + str(int(moy_op / len(result))))
     print("median d'operations: " + str(result[int(len(result) / 2)]))
     print("---------------------")
 
