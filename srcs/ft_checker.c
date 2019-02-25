@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/25 12:10:49 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/25 12:19:48 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,9 @@ int			read_input(char ***operations)
 
 int			main(int ac, char *av[])
 {
-	char	**operations;
-	int		visualize;
-	t_stack	*stacks;
+	char		**operations;
+	int			visualize;
+	t_stacks	*stacks;
 
 	visualize = ft_strcmp(av[1], "-v") ? 0 : 1;
 	stacks = NULL;
