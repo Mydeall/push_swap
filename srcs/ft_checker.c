@@ -6,36 +6,28 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/01 15:59:15 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/25 12:19:48 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/01 14:57:48 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdio.h>
 
-static int	verif_operations(char **operations)
+static int	verif_operation(char *operation)
 {
 	int len;
-	int i;
 
-	if (!operations)
+	if (!operation)
 		return (1);
-	i = -1;
-	while (operations[++i])
-	{
-		len = ft_strlen(operations[i]);
-		if ((len != 2 && len != 3) || !ft_strchr("spr", operations[i][0]))
-			return (1);
-		if ((ft_strchr("ab", operations[i][1]) ||\
-					(operations[i][1] == operations[i][0] &&\
-				operations[i][1] != 'p')) && len == 2)
-			continue;
-		else if (len == 3 && operations[i][1] == 'r' &&\
-				operations[i][0] == 'r' && ft_strchr("abr", operations[i][2]))
-			continue;
-		else
-			return (1);
-	}
+	len = ft_strlen(operation);
+	if ((len != 2 && len != 3) || !ft_strchr("spr", operation[0]))
+		return (1);
+	if (len == 2 && (!ft_strchr("ab", operation[1])\
+				&& (operation[1] != operation[0] || operation[1] == 'p')))
+		return (1);
+	else if (len == 3 && (operation[1] != 'r'\
+			|| operation[0] != 'r' || !ft_strchr("abr", operation[2])))
+		return (1);
 	return (0);
 }
 
@@ -52,74 +44,67 @@ static void	verif_result(t_stacks *stacks)
 		write(1, "KO\n", 3);
 }
 
-static int	apply_operations(char **operations, t_stacks *stacks, int visualize)
+static int	apply_operations(t_list *operations, t_stacks *stacks,\
+		int visualize)
 {
-	int			i;
+	t_list	*current;
 
-	if (verif_operations(operations))
-	{
-		ft_free_stacks(stacks);
-		write(2, "Error\n", 6);
-		return (1);
-	}
 	if (visualize && stacks->a_pile)
 		if (visualizer(stacks->a_pile, stacks->b_pile))
 			return (1);
-	i = -1;
-	while (operations[++i])
+	current = operations;
+	while (current)
 	{
-		if (action_applier(operations[i], stacks, visualize) == 1)
+		if (action_applier((char*)current->content, stacks, visualize) == 1)
 			return (1);
+		current = current->next;
 	}
 	verif_result(stacks);
-	ft_freetab(operations);
+	if (operations)
+		ft_listdel(&operations);
 	ft_free_stacks(stacks);
 	return (0);
 }
 
-int			read_input(char ***operations)
+int			read_input(t_list **operations, t_stacks *stacks)
 {
 	int		ret;
-	char	*tmp;
-	char	buff[BUFF_SIZE + 1];
+	t_list	*new;
+	char	*line;
 
-	while ((ret = read(0, buff, BUFF_SIZE)))
+	while ((ret = get_next_line(0, &line)) > 0)
 	{
-		if (ret == -1)
+		if (verif_operation(line))
+		{
+			ft_free_stacks(stacks);
+			write(2, "Error\n", 6);
 			return (1);
-		buff[ret] = 0;
-		tmp = **operations;
-		if (!(**operations = ft_strjoin(**operations, buff)))
+		}
+		if (!(new = ft_listnew(line, ft_strlen(line))))
 			return (1);
-		ft_strdel(&tmp);
+		ft_listradd(operations, new);
 	}
-	tmp = **operations;
-	if (!(*operations = ft_strsplit(**operations, '\n')))
-		return (1);
-	ft_strdel(&tmp);
 	return (0);
 }
 
 int			main(int ac, char *av[])
 {
-	char		**operations;
+	t_list		*operations;
 	int			visualize;
 	t_stacks	*stacks;
 
 	visualize = ft_strcmp(av[1], "-v") ? 0 : 1;
 	stacks = NULL;
+	operations = NULL;
 	if (init_stacks(&stacks, ac, av, visualize))
 	{
 		ft_free_stacks(stacks);
 		write(2, "Error\n", 6);
 		return (1);
 	}
-	if (!(operations = (char**)malloc(sizeof(char*))) ||
-			!(*operations = (char*)ft_memalloc(1)))
-		return (1);
 	if (!stacks->a_pile && !stacks->b_pile)
 		return (0);
-	if (read_input(&operations))
+	if (read_input(&operations, stacks))
 		return (1);
 	return (apply_operations(operations, stacks, visualize));
 }

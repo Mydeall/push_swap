@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/04 14:50:34 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 18:07:49 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/02/27 12:27:02 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,7 @@ char	*ft_pooljoin(t_pool *pool)
 	while (current)
 	{
 		ft_strcat(result, current->action);
-		if (current->prev)
-			ft_strcat(result, "\n");
+		ft_strcat(result, "\n");
 		current = current->prev;
 	}
 	return (result);

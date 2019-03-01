@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putlst_str.c                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 19:12:09 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/25 11:32:31 by ccepre           ###   ########.fr       */
+/*   Created: 2018/11/26 12:57:51 by ccepre            #+#    #+#             */
+/*   Updated: 2019/03/01 12:07:08 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include <unistd.h>
+# define BUFF_SIZE 100
 
-void	ft_putlst_str(t_list *lst)
+typedef struct			s_lst_save
 {
-	t_list *current;
+	char				*content;
+	int					fd;
+	struct s_lst_save	*next;
+}						t_lst_save;
 
-	ft_putstr("{\n");
-	if (!(lst))
-		ft_putstr("(null)\n");
-	current = lst;
-	while (current)
-	{
-		ft_putchar('|');
-		ft_putstr(current->content);
-		ft_putchar('|');
-		ft_putchar('\n');
-		current = current->next;
-	}
-	ft_putstr("}\n");
-}
+#endif

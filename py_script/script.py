@@ -52,7 +52,6 @@ def test_n_time_x_elem(nbr, x):
     print("---------------------")
 
 if (len(sys.argv) == 2):
-    test_all_permutations_for_n_elem(0)
     test_all_permutations_for_n_elem(1)
     test_all_permutations_for_n_elem(2)
     test_all_permutations_for_n_elem(3)

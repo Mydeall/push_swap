@@ -1,32 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putlst_str.c                                    :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 19:12:09 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/25 11:32:31 by ccepre           ###   ########.fr       */
+/*   Created: 2018/11/12 15:07:00 by ccepre            #+#    #+#             */
+/*   Updated: 2019/03/01 12:42:41 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putlst_str(t_list *lst)
+t_list	*ft_listnew(void const *content, size_t content_size)
 {
-	t_list *current;
+	t_list	*new;
 
-	ft_putstr("{\n");
-	if (!(lst))
-		ft_putstr("(null)\n");
-	current = lst;
-	while (current)
+	if (!(new = (t_list*)malloc(sizeof(t_list) * 1)))
+		return (NULL);
+	if (content == NULL)
 	{
-		ft_putchar('|');
-		ft_putstr(current->content);
-		ft_putchar('|');
-		ft_putchar('\n');
-		current = current->next;
+		new->content = NULL;
+		new->content_size = 0;
+		new->next = NULL;
+		return (new);
 	}
-	ft_putstr("}\n");
+	new->content = (void*)content;
+	new->content_size = content_size;
+	new->next = NULL;
+	return (new);
 }

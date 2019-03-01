@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putlst_str.c                                    :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 19:12:09 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/25 11:32:31 by ccepre           ###   ########.fr       */
+/*   Created: 2018/11/12 16:24:10 by ccepre            #+#    #+#             */
+/*   Updated: 2019/03/01 14:13:05 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putlst_str(t_list *lst)
+void	ft_listdel(t_list **alst)
 {
-	t_list *current;
+	t_list	*lst;
+	t_list	*lstn;
 
-	ft_putstr("{\n");
-	if (!(lst))
-		ft_putstr("(null)\n");
-	current = lst;
-	while (current)
+	if (!(alst))
+		return ;
+	lst = *alst;
+	while (lst != NULL)
 	{
-		ft_putchar('|');
-		ft_putstr(current->content);
-		ft_putchar('|');
-		ft_putchar('\n');
-		current = current->next;
+		lstn = lst->next;
+		free((lst)->content);
+		free(lst);
+		lst = lstn;
 	}
-	ft_putstr("}\n");
+	free(lst);
+	free(lstn);
+	*alst = NULL;
 }

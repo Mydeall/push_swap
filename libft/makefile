@@ -6,7 +6,7 @@
 #    By: ccepre <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 15:43:12 by ccepre            #+#    #+#              #
-#    Updated: 2019/02/12 15:19:13 by ccepre           ###   ########.fr        #
+#    Updated: 2019/03/01 14:19:19 by ccepre           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ PRINTF_PATH = ./ft_printf
 INC_PATH = ./../includes
 
 LIB_NAME = ft_strcpy.c\
+		   get_next_line.c\
 		   ft_strdel.c\
 		   ft_atoi.c\
 		   ft_strdup.c\
@@ -51,7 +52,12 @@ LIB_NAME = ft_strcpy.c\
 		   ft_memcpy.c \
 		   ft_putlst_str.c \
 		   ft_freetab.c \
-		   ft_dtoa.c 
+		   ft_dtoa.c \
+		   ft_lstadd.c \
+		   ft_lstradd.c \
+		   ft_lstnew.c \
+		   ft_lstlen.c \
+		   ft_lstdel.c
 
 PRINTF_NAME = ft_printf.c \
 		   lst_functions.c \
@@ -66,7 +72,8 @@ PRINTF_NAME = ft_printf.c \
 		   ft_struct_fct.c
 
 INC_NAME = ft_printf.h \
-		   libft.h
+		   libft.h \
+		   get_next_line.h
 
 LIB = $(addprefix $(LIB_PATH)/, $(LIB_NAME))
 PRINTF = $(addprefix $(PRINTF_PATH)/, $(PRINTF_NAME))

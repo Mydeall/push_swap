@@ -6,7 +6,7 @@
 /*   By: ccepre <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 20:00:42 by ccepre            #+#    #+#             */
-/*   Updated: 2019/02/11 17:55:42 by ccepre           ###   ########.fr       */
+/*   Updated: 2019/03/01 14:18:45 by ccepre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+int					get_next_line(const int fd, char **line);
 size_t				ft_strlen(const char *str);
 int					ft_strcmp(const char *s1, const char *s2);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -92,5 +93,10 @@ void				ft_listadd(t_list **alst, t_list *new);
 void				ft_putlst_str(t_list *lst);
 void				ft_freetab(char **av);
 int					ft_printf(const char *restrict format, ...);
+void				ft_listadd(t_list **alst, t_list *new);
+size_t				ft_listlen(t_list *lst);
+t_list				*ft_listnew(void const *content, size_t content_size);
+void				ft_listdel(t_list **alst);
+void				ft_listradd(t_list **lst, t_list *new);
 
 #endif
